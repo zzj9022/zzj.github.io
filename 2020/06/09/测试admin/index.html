@@ -11,12 +11,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    测试admin使用 |  Hello World
+    mySql查出用户常用手机号码 |  Hello World
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
   <link rel="shortcut icon" href="/favicon.ico" />
   
+  <link href="https://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">
+  <script src="https://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
   
 <link rel="stylesheet" href="/dist/main.css">
 
@@ -35,6 +37,9 @@
 
   
 
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
 </head>
 
 </html>
@@ -57,7 +62,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  测试admin使用
+  mySql查出用户常用手机号码
 </h1>
  
 
@@ -68,7 +73,7 @@
   <time datetime="2020-06-09T07:49:00.000Z" itemprop="datePublished">2020-06-09</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%B5%8B%E8%AF%95/">测试</a>
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E4%BD%9C/">工作</a>
   </div>
   
 <div class="word_count">
@@ -76,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">12</span>
+            <span class="post-count">558</span>
         </span>
     </span>
 
@@ -85,20 +90,38 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1 分钟</span>
+            <span class="post-count">2 分钟</span>
         </span>
     </span>
 </div>
  
     </div>
       
+    <div class="tocbot"></div>
+
 
 
 
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>我就试验一下图片怎么放啊</p>
+  <h4 id="mySql查出用户常用手机号码"><a href="#mySql查出用户常用手机号码" class="headerlink" title="mySql查出用户常用手机号码"></a>mySql查出用户常用手机号码</h4><blockquote>
+<p>由于设计问题，自己手机号可有多个，联系人的手机号又有多个，现设计为在这一堆手机号中必勾选一个为常用电话，现需查出用户唯一的常用手机号做批量处理。</p>
+</blockquote>
+<p>在自己一堆手机号中使用了<u>recently字段为1</u>作为常用手机号，而在联系人一堆手机号中使用了<u>is_default字段为1</u>作为常用手机号，而两张表中的手机号字段也不同，故使用了case when语句进行输出处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT pb.id,pb.&#96;name&#96;,pb.nationality,<br>CASE	<br>	WHEN pp.recently &#x3D; 1 THEN<br>	pp.patient_tel <br>	WHEN pc.is_default &#x3D; 1 THEN<br>	pc.contacts_tel <br>	END tel <br>FROM<br>	patient_basic_info pb<br>	LEFT JOIN patient_phone pp ON pb.id &#x3D; pp.patient_id <br>	AND pp.is_del &#x3D; 1 <br>	AND pp.recently &#x3D; 1<br>	LEFT JOIN patient_contacts pc ON pb.id &#x3D; pc.patient_id <br>	AND pc.is_del &#x3D; 1 <br>	AND pc.is_default &#x3D; 1 <br>	where pb.id &#x3D; 876025<br></code></pre></td></tr></table></figure>
+
+<p>当前Sql可查出某个用户ID的常用手机号，如全部查出需将最后where语句删除即可。</p>
+<blockquote>
+<p>MySql 中关键字 case when then else end 的用法</p>
+</blockquote>
+<p>数据SQL CASE 表达式是一种通用的条件表达式，类似于其它语言中的 <strong>if/else</strong> 语句。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs mysql">CASE WHEN condition THEN result <br>　　　WHEN condition THEN result <br>　　　.............<br>　　　[WHEN ...] <br>　　　[ELSE result] <br>END<br></code></pre></td></tr></table></figure>
+
+<p>​        CASE 子句可以用于任何表达式可以有效存在的地方。 condition 是一个返回boolean 的表达式。 如果结果为真，那么 CASE 表达式的结果就是符合条件的 result。 如果结果为假，那么以相同方式搜寻任何随后的 WHEN 子句。 如果没有 WHEN condition 为真，那么 case 表达式的结果就是在 ELSE 子句里的值。 如果省略了 ELSE 子句而且没有匹配的条件, 结果为 NULL。</p>
+<p>eg.简单举例，如果将数据库里1、2换为男女，则可以直接输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs mysql">select name,<br>    case <br>    when sex&#x3D;&#39;1&#39; then &#39;男&#39;<br>    when sex&#x3D;&#39;2&#39; then &#39;女&#39; <br>    else &#39;无性别&#39; <br>    end sex<br>    from user_table;<br></code></pre></td></tr></table></figure>
+<p>当然，我们在实际应用中，通常不会这样直接查库后用sql转换数据值，可通过后端实体输出时或者前端直接做判断修改等方式进行即可。</p>
  
       <!-- reward -->
       
@@ -166,7 +189,7 @@
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%BF%E7%94%A8/" rel="tag">使用</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
 
     </footer>
   </div>

@@ -1,6 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>实战派(第2-3章)</title>
+    <url>/2020/07/05/%E6%88%98%E6%B4%BE-%E7%AC%AC1%E7%AB%A0/</url>
+    <content><![CDATA[<h1 id="第2章-准备开发环境和工具"><a href="#第2章-准备开发环境和工具" class="headerlink" title="第2章 准备开发环境和工具"></a>第2章 准备开发环境和工具</h1><p>在安装jdk中级的选择好安装位置，且路径中不要有中文，以便配置Jdk的环境变量。</p>
+<h3 id="系统变量配置"><a href="#系统变量配置" class="headerlink" title="系统变量配置"></a>系统变量配置</h3><table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">变量名</th>
+<th align="left">变量值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Java</td>
+<td align="center">JAVA_HOME</td>
+<td align="left">JDK安装目录</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">CLASSPATH</td>
+<td align="left">.%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar<br />【前面有个点不能丢失】</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">PATH</td>
+<td align="left">%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin</td>
+</tr>
+<tr>
+<td align="center">Maven</td>
+<td align="center">MAVEN_HOME</td>
+<td align="left">Maven解压目录</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">PATH</td>
+<td align="left">%MAVEN_HOME%\bin</td>
+</tr>
+</tbody></table>
+<p>POM（Project Object Model,项目对象模型）是Maven工程的基本工作单元，也是Maven的核心。</p>
+<h3 id="POM中通常有以下元素"><a href="#POM中通常有以下元素" class="headerlink" title="POM中通常有以下元素"></a>POM中通常有以下元素</h3><ol>
+<li><p>dependencies</p>
+<p>在此元素下添加依赖，可以包含多个<dependency>依赖。</p>
+</li>
+<li><p>dependency</p>
+<p><dependency>与</dependency>之间有以下3个标识</p>
+<ul>
+<li>groupId：定义率属的实际项目，坐标元素之一</li>
+<li>artifactId：定义项目中的一个模块，坐标元素之一</li>
+<li>version：定义依赖或项目的版本，坐标元素之一</li>
+</ul>
+</li>
+<li><p>scope</p>
+<p>如果编译时需要发布时不需要的JAR包，则可以用scope标签标示为provided。还可以设置为test、runtime等</p>
+</li>
+<li><p>properties</p>
+<p>如果要使用自已顶的变量，则应在<properties></properties>元素中定义变量，然后在其他节点中引用该变量，比如统一版本号等</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">java.version</span>&gt;</span>1.8<span class="hljs-tag">&lt;/<span class="hljs-name">java.version</span>&gt;</span><br><span class="hljs-comment">&lt;!--使用时，可以通过表达式“$&#123;变量名&#125;”来调用。--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;java.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>plugin</p>
+<p>在创建cloud和boot项目时，默认在POM文件中存在spring-boot-maven-plugin插件。它提供打包时所需的信息，将Spring Cloud应用打包为可执行的JAR或War文件</p>
+</li>
+</ol>
+<h3 id="Maven配置国内仓库"><a href="#Maven配置国内仓库" class="headerlink" title="Maven配置国内仓库"></a>Maven配置国内仓库</h3><p>Maven安装目录下conf目录中，打开settings.xml文件</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml">...<br><span class="hljs-tag">&lt;<span class="hljs-name">mirrors</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">mirror</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">id</span>&gt;</span>alimaven<span class="hljs-tag">&lt;/<span class="hljs-name">id</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>aliyun maven<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public/<span class="hljs-tag">&lt;/<span class="hljs-name">url</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">mirrorOf</span>&gt;</span>central<span class="hljs-tag">&lt;/<span class="hljs-name">mirrorOf</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">mirror</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">mirrors</span>&gt;</span><br>...<br></code></pre></td></tr></table></figure>
+
+<h1 id="第3章-用Spring-Cloud实现一个微服务系统"><a href="#第3章-用Spring-Cloud实现一个微服务系统" class="headerlink" title="第3章 用Spring Cloud实现一个微服务系统"></a>第3章 用Spring Cloud实现一个微服务系统</h1><h3 id="用Eureka实现”服务中心”"><a href="#用Eureka实现”服务中心”" class="headerlink" title="用Eureka实现”服务中心”"></a>用Eureka实现”服务中心”</h3><figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--Eureka服务器端需要的依赖--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><em>上述依赖中，其实已经包含下述依赖，无需再引入：</em></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--spring cloud启动的依赖--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>接下来需要配置“服务中心”的地址、端口号和应用名称，如下</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment">#应用名称</span><br><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">application:</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">Eureka</span> <span class="hljs-string">Server</span> <span class="hljs-string">Demo</span><br><span class="hljs-comment">#端口号</span><br><span class="hljs-attr">server:</span><br>  <span class="hljs-attr">port:</span> <span class="hljs-number">8080</span><br><br><span class="hljs-attr">eureka:</span><br>  <span class="hljs-attr">client:</span><br>    <span class="hljs-comment">#是否注册到Eureka Server,默认为true</span><br>    <span class="hljs-attr">register-with-eureka:</span> <span class="hljs-literal">true</span><br>    <span class="hljs-comment">#是否从Eureka Server获取注册信息,默认为true</span><br>    <span class="hljs-attr">fetch-registry:</span> <span class="hljs-literal">true</span><br>    <span class="hljs-comment">#设置Eureka Server交互的地址，查询服务和注册服务都需要依赖这个地址。多个地址可使用","分割</span><br>    <span class="hljs-attr">service-url:</span><br>      <span class="hljs-comment">#service-url下边是map对，注意defaultZone不是default-zone</span><br>      <span class="hljs-attr">defaultZone:</span> <span class="hljs-string">http://localhost:$&#123;server.port&#125;/eureka/</span><br></code></pre></td></tr></table></figure>
+
+<p>实现“服务中心”集群（满足高可用）：</p>
+<p>eg.node1,node2,node3</p>
+<p>node1的defaultZone配置为指向node2和node3：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">eureka:</span><br>  <span class="hljs-attr">client:</span><br>  <span class="hljs-comment">#设置Eureka Server交互的地址，查询服务和注册服务都需要依赖这个地址。多个地址可使用","分割</span><br>    <span class="hljs-attr">service-url:</span><br>      <span class="hljs-attr">defaultZone:</span> <span class="hljs-string">http://node2:8082/eureka/,http://node3:8083/eureka/</span><br></code></pre></td></tr></table></figure>
+
+<p>通过配置项“eureka.client.serviceUrl.defaultZone”来配置多个”服务中心”。Eureka的默认地址是<a href="http://URL:8761/eureka。" target="_blank" rel="noopener">http://URL:8761/eureka。</a></p>
+<p>分别启动三个节点，在节点node1的“DS Replicas”中已经有了node2,node3的配置信息，并且“available-replicas”中有node1、node2、node3的状态信息。如果停止node2,则会发现node2被移动到“unavailable-replicas”一栏中，标识node2不可用。</p>
+<h3 id="用Eureka实现“服务提供者”"><a href="#用Eureka实现“服务提供者”" class="headerlink" title="用Eureka实现“服务提供者”"></a>用Eureka实现“服务提供者”</h3><p>创建项目时选择Eureka Discovery Client复选框</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--Eureka客户端的依赖--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-comment">&lt;!--SpringBoot的web依赖--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>这时候的配置可以连到所有的Eureka中,配置如下：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment">#应用名称</span><br><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">application:</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">provider</span><br><span class="hljs-comment">#端口号</span><br><span class="hljs-attr">server:</span><br>  <span class="hljs-attr">port:</span> <span class="hljs-number">8000</span><br><span class="hljs-comment">#服务中心地址</span><br><span class="hljs-attr">eureka:</span><br>  <span class="hljs-attr">client:</span><br>    <span class="hljs-attr">service-url:</span><br>      <span class="hljs-attr">defaultZone:</span> <span class="hljs-string">http://node1:8081/eureka/,http://node1:8082/eureka/,http://node1:8083/eureka/</span><br></code></pre></td></tr></table></figure>
+
+<p>启用注册和发现：</p>
+<blockquote>
+<p>要用Eureka启用客户端服务的注册和发现功能，可以使用注解@EnableEurekaClient和@EnableDiscoveryClient来实现。如果是使用其他“服务中心”（如Zookerper、Consul）,则只能使用注解@EnableDiscoveryClient来实现，@EnableEurekaClient是Eureka的专用注解。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-comment">//启用客户端的服务注册和发现功能</span><br><span class="hljs-meta">@EnableDiscoveryClient</span><br><span class="hljs-comment">//或者这个</span><br><span class="hljs-comment">//@EnableEurekaClient</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EurekaProviderApplication</span> </span>&#123;<br>   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>      SpringApplication.run(EurekaProviderApplication<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>@Value</strong>注解用于获取配置中的信息</p>
+<p>检查服务的有效性：进入Eureka注册中心的控制台，如果已经注册过，则在“Instances currently registered with Eureka”标题栏下方会出现“服务提供者”的应用名称。</p>
+<p>“服务提供者”集群：以不同端口启动，连接到统一注册中心即可。</p>
+<h3 id="用Fegin实现“服务消费者”"><a href="#用Fegin实现“服务消费者”" class="headerlink" title="用Fegin实现“服务消费者”"></a>用Fegin实现“服务消费者”</h3><figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--Eureka客户端的依赖--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-comment">&lt;!--SpringBoot的web依赖--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-comment">&lt;!--Fegin客户端的依赖--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>如果“服务消费者”不对外提供服务接口，则不需要将其注册到“服务中心”</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment">#服务中心地址</span><br><span class="hljs-attr">eureka:</span><br>  <span class="hljs-attr">client:</span><br>  <span class="hljs-comment">#不注册到Eureka</span><br>    <span class="hljs-attr">fetch-registry:</span> <span class="hljs-literal">false</span><br>    <span class="hljs-attr">service-url:</span><br>      <span class="hljs-attr">defaultZone:</span> <span class="hljs-string">http://node1:8081/eureka/,http://node1:8082/eureka/,http://node1:8083/eureka/</span><br></code></pre></td></tr></table></figure>
+
+<p>启用客户端的发现和远程调用</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-comment">//启用客户端的服务注册和发现功能</span><br><span class="hljs-meta">@EnableDiscoveryClient</span><br><span class="hljs-comment">//启用Feign的远程服务调用</span><br><span class="hljs-meta">@EnableFeignClients</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsumerApplication</span> </span>&#123;<br>   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>      SpringApplication.run(ConsumerApplication<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>调用“服务提供者”接口</p>
+<blockquote>
+<p>Feign是一个声明式Web Service客户端。使用Feign能让编写Web Service客户端更加简便。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//name:远程服务名，即"服务提供者"在"服务中心"中注册的名字</span><br><span class="hljs-meta">@FeignClient</span>(name = <span class="hljs-string">"provider"</span>)<br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">MyFeignClient</span> </span>&#123;<br>    <span class="hljs-meta">@RequestMapping</span>(value = <span class="hljs-string">"/hello"</span>)<br>    <span class="hljs-function">String <span class="hljs-title">hello</span><span class="hljs-params">()</span></span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>实现客户端接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs Java"><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsumerController</span> </span>&#123;<br>    <span class="hljs-comment">//注入接口</span><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> MyFeignClient feignClient;<br>  <br>    <span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/hello"</span>)<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">index</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-comment">//返回内容</span><br>        <span class="hljs-keyword">return</span> feignClient.hello();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>测试微服务接口：</p>
+<p>测试输出端口号，可关闭其中任意一个“服务提供者”或“服务中心”，再次访问，能够正常返回信息即为正常。</p>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>实战派</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2020/06/09/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
@@ -17,34 +139,6 @@
 
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>mySql查出用户常用手机号码</title>
-    <url>/2020/06/09/mySql%E6%9F%A5%E5%87%BA%E7%94%A8%E6%88%B7%E5%B8%B8%E7%94%A8%E6%89%8B%E6%9C%BA%E5%8F%B7%E7%A0%81/</url>
-    <content><![CDATA[<h4 id="mySql查出用户常用手机号码"><a href="#mySql查出用户常用手机号码" class="headerlink" title="mySql查出用户常用手机号码"></a>mySql查出用户常用手机号码</h4><blockquote>
-<p>由于设计问题，自己手机号可有多个，联系人的手机号又有多个，现设计为在这一堆手机号中必勾选一个为常用电话，现需查出用户唯一的常用手机号做批量处理。</p>
-</blockquote>
-<p>在自己一堆手机号中使用了<u>recently字段为1</u>作为常用手机号，而在联系人一堆手机号中使用了<u>is_default字段为1</u>作为常用手机号，而两张表中的手机号字段也不同，故使用了case when语句进行输出处理。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT pb.id,pb.&#96;name&#96;,pb.nationality,<br>CASE	<br>	WHEN pp.recently &#x3D; 1 THEN<br>	pp.patient_tel <br>	WHEN pc.is_default &#x3D; 1 THEN<br>	pc.contacts_tel <br>	END tel <br>FROM<br>	patient_basic_info pb<br>	LEFT JOIN patient_phone pp ON pb.id &#x3D; pp.patient_id <br>	AND pp.is_del &#x3D; 1 <br>	AND pp.recently &#x3D; 1<br>	LEFT JOIN patient_contacts pc ON pb.id &#x3D; pc.patient_id <br>	AND pc.is_del &#x3D; 1 <br>	AND pc.is_default &#x3D; 1 <br>	where pb.id &#x3D; 876025<br></code></pre></td></tr></table></figure>
-
-<p>当前Sql可查出某个用户ID的常用手机号，如全部查出需将最后where语句删除即可。</p>
-<blockquote>
-<p>MySql 中关键字 case when then else end 的用法</p>
-</blockquote>
-<p>数据SQL CASE 表达式是一种通用的条件表达式，类似于其它语言中的 <strong>if/else</strong> 语句。 </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">CASE WHEN condition THEN result <br>　　　WHEN condition THEN result <br>　　　.............<br>　　　[WHEN ...] <br>　　　[ELSE result] <br>END<br></code></pre></td></tr></table></figure>
-
-<p>​        CASE 子句可以用于任何表达式可以有效存在的地方。 condition 是一个返回boolean 的表达式。 如果结果为真，那么 CASE 表达式的结果就是符合条件的 result。 如果结果为假，那么以相同方式搜寻任何随后的 WHEN 子句。 如果没有 WHEN condition 为真，那么 case 表达式的结果就是在 ELSE 子句里的值。 如果省略了 ELSE 子句而且没有匹配的条件, 结果为 NULL。</p>
-<p>eg.简单举例，如果将数据库里1、2换为男女，则可以直接输出：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">select name,<br>    case <br>    when sex&#x3D;&#39;1&#39; then &#39;男&#39;<br>    when sex&#x3D;&#39;2&#39; then &#39;女&#39; <br>    else &#39;无性别&#39; <br>    end sex<br>    from user_table;<br></code></pre></td></tr></table></figure>
-<p>当然，我们在实际应用中，通常不会这样直接查库后用sql转换数据值，可通过后端实体输出时或者前端直接做判断修改等方式进行即可。</p>
-]]></content>
-      <categories>
-        <category>工作</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-      </tags>
   </entry>
   <entry>
     <title>发现fastjson有意思的事</title>
@@ -157,5 +251,33 @@
       <categories>
         <category>java</category>
       </categories>
+  </entry>
+  <entry>
+    <title>mySql查出用户常用手机号码</title>
+    <url>/2020/06/09/mySql%E6%9F%A5%E5%87%BA%E7%94%A8%E6%88%B7%E5%B8%B8%E7%94%A8%E6%89%8B%E6%9C%BA%E5%8F%B7%E7%A0%81/</url>
+    <content><![CDATA[<h4 id="mySql查出用户常用手机号码"><a href="#mySql查出用户常用手机号码" class="headerlink" title="mySql查出用户常用手机号码"></a>mySql查出用户常用手机号码</h4><blockquote>
+<p>由于设计问题，自己手机号可有多个，联系人的手机号又有多个，现设计为在这一堆手机号中必勾选一个为常用电话，现需查出用户唯一的常用手机号做批量处理。</p>
+</blockquote>
+<p>在自己一堆手机号中使用了<u>recently字段为1</u>作为常用手机号，而在联系人一堆手机号中使用了<u>is_default字段为1</u>作为常用手机号，而两张表中的手机号字段也不同，故使用了case when语句进行输出处理。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT pb.id,pb.&#96;name&#96;,pb.nationality,<br>CASE	<br>	WHEN pp.recently &#x3D; 1 THEN<br>	pp.patient_tel <br>	WHEN pc.is_default &#x3D; 1 THEN<br>	pc.contacts_tel <br>	END tel <br>FROM<br>	patient_basic_info pb<br>	LEFT JOIN patient_phone pp ON pb.id &#x3D; pp.patient_id <br>	AND pp.is_del &#x3D; 1 <br>	AND pp.recently &#x3D; 1<br>	LEFT JOIN patient_contacts pc ON pb.id &#x3D; pc.patient_id <br>	AND pc.is_del &#x3D; 1 <br>	AND pc.is_default &#x3D; 1 <br>	where pb.id &#x3D; 876025<br></code></pre></td></tr></table></figure>
+
+<p>当前Sql可查出某个用户ID的常用手机号，如全部查出需将最后where语句删除即可。</p>
+<blockquote>
+<p>MySql 中关键字 case when then else end 的用法</p>
+</blockquote>
+<p>数据SQL CASE 表达式是一种通用的条件表达式，类似于其它语言中的 <strong>if/else</strong> 语句。 </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">CASE WHEN condition THEN result <br>　　　WHEN condition THEN result <br>　　　.............<br>　　　[WHEN ...] <br>　　　[ELSE result] <br>END<br></code></pre></td></tr></table></figure>
+
+<p>​        CASE 子句可以用于任何表达式可以有效存在的地方。 condition 是一个返回boolean 的表达式。 如果结果为真，那么 CASE 表达式的结果就是符合条件的 result。 如果结果为假，那么以相同方式搜寻任何随后的 WHEN 子句。 如果没有 WHEN condition 为真，那么 case 表达式的结果就是在 ELSE 子句里的值。 如果省略了 ELSE 子句而且没有匹配的条件, 结果为 NULL。</p>
+<p>eg.简单举例，如果将数据库里1、2换为男女，则可以直接输出：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">select name,<br>    case <br>    when sex&#x3D;&#39;1&#39; then &#39;男&#39;<br>    when sex&#x3D;&#39;2&#39; then &#39;女&#39; <br>    else &#39;无性别&#39; <br>    end sex<br>    from user_table;<br></code></pre></td></tr></table></figure>
+<p>当然，我们在实际应用中，通常不会这样直接查库后用sql转换数据值，可通过后端实体输出时或者前端直接做判断修改等方式进行即可。</p>
+]]></content>
+      <categories>
+        <category>工作</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
   </entry>
 </search>

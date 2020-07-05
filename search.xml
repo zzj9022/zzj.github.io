@@ -1,8 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Hello World</title>
+    <url>/2020/06/09/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">"My New Post"</span><br></code></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>mySql查出用户常用手机号码</title>
+    <url>/2020/06/09/mySql%E6%9F%A5%E5%87%BA%E7%94%A8%E6%88%B7%E5%B8%B8%E7%94%A8%E6%89%8B%E6%9C%BA%E5%8F%B7%E7%A0%81/</url>
+    <content><![CDATA[<h4 id="mySql查出用户常用手机号码"><a href="#mySql查出用户常用手机号码" class="headerlink" title="mySql查出用户常用手机号码"></a>mySql查出用户常用手机号码</h4><blockquote>
+<p>由于设计问题，自己手机号可有多个，联系人的手机号又有多个，现设计为在这一堆手机号中必勾选一个为常用电话，现需查出用户唯一的常用手机号做批量处理。</p>
+</blockquote>
+<p>在自己一堆手机号中使用了<u>recently字段为1</u>作为常用手机号，而在联系人一堆手机号中使用了<u>is_default字段为1</u>作为常用手机号，而两张表中的手机号字段也不同，故使用了case when语句进行输出处理。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT pb.id,pb.&#96;name&#96;,pb.nationality,<br>CASE	<br>	WHEN pp.recently &#x3D; 1 THEN<br>	pp.patient_tel <br>	WHEN pc.is_default &#x3D; 1 THEN<br>	pc.contacts_tel <br>	END tel <br>FROM<br>	patient_basic_info pb<br>	LEFT JOIN patient_phone pp ON pb.id &#x3D; pp.patient_id <br>	AND pp.is_del &#x3D; 1 <br>	AND pp.recently &#x3D; 1<br>	LEFT JOIN patient_contacts pc ON pb.id &#x3D; pc.patient_id <br>	AND pc.is_del &#x3D; 1 <br>	AND pc.is_default &#x3D; 1 <br>	where pb.id &#x3D; 876025<br></code></pre></td></tr></table></figure>
+
+<p>当前Sql可查出某个用户ID的常用手机号，如全部查出需将最后where语句删除即可。</p>
+<blockquote>
+<p>MySql 中关键字 case when then else end 的用法</p>
+</blockquote>
+<p>数据SQL CASE 表达式是一种通用的条件表达式，类似于其它语言中的 <strong>if/else</strong> 语句。 </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">CASE WHEN condition THEN result <br>　　　WHEN condition THEN result <br>　　　.............<br>　　　[WHEN ...] <br>　　　[ELSE result] <br>END<br></code></pre></td></tr></table></figure>
+
+<p>​        CASE 子句可以用于任何表达式可以有效存在的地方。 condition 是一个返回boolean 的表达式。 如果结果为真，那么 CASE 表达式的结果就是符合条件的 result。 如果结果为假，那么以相同方式搜寻任何随后的 WHEN 子句。 如果没有 WHEN condition 为真，那么 case 表达式的结果就是在 ELSE 子句里的值。 如果省略了 ELSE 子句而且没有匹配的条件, 结果为 NULL。</p>
+<p>eg.简单举例，如果将数据库里1、2换为男女，则可以直接输出：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">select name,<br>    case <br>    when sex&#x3D;&#39;1&#39; then &#39;男&#39;<br>    when sex&#x3D;&#39;2&#39; then &#39;女&#39; <br>    else &#39;无性别&#39; <br>    end sex<br>    from user_table;<br></code></pre></td></tr></table></figure>
+<p>当然，我们在实际应用中，通常不会这样直接查库后用sql转换数据值，可通过后端实体输出时或者前端直接做判断修改等方式进行即可。</p>
+]]></content>
+      <categories>
+        <category>工作</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>发现fastjson有意思的事</title>
+    <url>/2020/06/11/%E5%8F%91%E7%8E%B0fastjson%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E4%BA%8B/</url>
+    <content><![CDATA[<h3 id="fastjson"><a href="#fastjson" class="headerlink" title="fastjson"></a>fastjson</h3><blockquote>
+<p>本想着测试一下，直接用fastjson输出json时直接将null值转为空串，然后发现这事…</p>
+</blockquote>
+<p>使用的maven依赖版本：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>fastjson<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.2.68<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>测试代码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">Map&lt;String, Object&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;String, Object&gt;();<br>map.put(<span class="hljs-string">"age"</span>, <span class="hljs-number">18</span>);<br>map.put(<span class="hljs-string">"name"</span>, <span class="hljs-keyword">null</span>);<br><span class="hljs-comment">//默认输出</span><br>String s = JSON.toJSONString(map);<br>System.out.println(<span class="hljs-string">"map默认输出值："</span> + s);<br><br>User user = <span class="hljs-keyword">new</span> User();<br>user.setAge(<span class="hljs-number">18</span>);<br>user.setName(<span class="hljs-keyword">null</span>);<br>String s3 = JSON.toJSONString(user);<br>System.out.println(<span class="hljs-string">"user默认:"</span> + s3);<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight"><table><tr><td class="code"><pre><code class="hljs json">map默认输出值：&#123;"age":18&#125;<br>user默认:&#123;"age":18&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>从输出结果可以看出，默认输出时null对应的key已经被过滤掉，这时我们用到了fastjson的<strong>SerializerFeature</strong>序列化属性.</p>
+</blockquote>
+<p>SerializerFeature中有用的一些枚举值如下（加粗为常用的）：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th align="left">含义</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>QuoteFieldNames</strong></td>
+<td align="left"><strong>输出key时是否使用双引号</strong></td>
+<td><strong>默认为true</strong></td>
+</tr>
+<tr>
+<td>UseSingleQuotes</td>
+<td align="left">使用单引号而不是双引号</td>
+<td>默认为false</td>
+</tr>
+<tr>
+<td>WriteNullBooleanAsFalse</td>
+<td align="left">Boolean字段如果为null,输出为false,而非null</td>
+<td></td>
+</tr>
+<tr>
+<td>WriteNullNumberAsZero</td>
+<td align="left">数值字段如果为null,输出为0,而非null</td>
+<td></td>
+</tr>
+<tr>
+<td>WriteNullListAsEmpty</td>
+<td align="left">List字段如果为null,输出为[],而非null</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>WriteNullStringAsEmpty</strong></td>
+<td align="left"><strong>字符类型字段如果为null,输出为”“,而非null</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>WriteDateUseDateFormat</td>
+<td align="left">全局修改日期格式</td>
+<td>默认为false</td>
+</tr>
+<tr>
+<td><strong>WriteMapNullValue</strong></td>
+<td align="left"><strong>是否输出值为null的字段</strong></td>
+<td><strong>默认为false</strong></td>
+</tr>
+<tr>
+<td>WriteEnumUsingToString</td>
+<td align="left">Enum输出name()或者original</td>
+<td>默认为false</td>
+</tr>
+<tr>
+<td>SkipTransientField</td>
+<td align="left">如果是true，类中的Get方法对应的Field是transient，序列化时将会被忽略</td>
+<td>默认为true</td>
+</tr>
+<tr>
+<td>SortField</td>
+<td align="left">按字段名称排序后输出</td>
+<td>默认为false</td>
+</tr>
+<tr>
+<td>WriteTabAsSpecial</td>
+<td align="left">把\t做转义输出，</td>
+<td>默认为false 不推荐</td>
+</tr>
+<tr>
+<td>PrettyFormat</td>
+<td align="left">结果是否格式化</td>
+<td>默认为false</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">String s1 = JSON.toJSONString(map, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);<br>System.out.println(<span class="hljs-string">"map转为空串--&gt;不起作用："</span> + s1);<br><br>String s4 = JSON.toJSONString(user, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);<br>System.out.println(<span class="hljs-string">"user转为空串"</span> + s4);<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight"><table><tr><td class="code"><pre><code class="hljs json">map转为空串--&gt;不起作用：&#123;"name":null,"age":18&#125;<br>user转为空串&#123;"age":18,"name":""&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这时候我们发现，map和user对象同样使用SerializerFeature后：user对象输出就是我们要的结果，而map虽然输出了name的值为nulll,说明<strong>WriteMapNullValue</strong>是有作用的，但是<strong>WriteNullStringAsEmpty</strong>转换竟然<strong>不起作用</strong>！！！</p>
+</blockquote>
+<p>一阵噼里啪啦网上查找时，我们发现可以造一个fastjson的过滤器，是这样的：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ValueFilter filter = <span class="hljs-keyword">new</span> ValueFilter() &#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">process</span><span class="hljs-params">(Object obj, String s, Object v)</span> </span>&#123;<br>    	<span class="hljs-keyword">if</span> (v == <span class="hljs-keyword">null</span>) &#123;<br>    		<span class="hljs-keyword">return</span> <span class="hljs-string">""</span>;<br>    	&#125;<br>    	<span class="hljs-keyword">return</span> v;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>然后转换时直接使用filter，这样就可以了：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">String s2 = JSON.toJSONString(map, MainTest.filter);<br>System.out.println(<span class="hljs-string">"map使用filter:"</span> + s2);<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight"><table><tr><td class="code"><pre><code class="hljs json">map使用filter:&#123;"name":"","age":18&#125;<br></code></pre></td></tr></table></figure>
+
+<p>其实我们用SerializerFeature主要是针对Object对象序列化转换时的情况（这个时候能判断参数的类型），而在Map中，放进入了null就是null，进行序列化时已经没法判断它原来的类型了，所以并没有起作用！~</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
     <title>实战派(第2-3章)</title>
-    <url>/2020/07/05/%E6%88%98%E6%B4%BE-%E7%AC%AC1%E7%AB%A0/</url>
+    <url>/2020/06/05/%E5%AE%9E%E6%88%98%E6%B4%BE-2-3/</url>
     <content><![CDATA[<h1 id="第2章-准备开发环境和工具"><a href="#第2章-准备开发环境和工具" class="headerlink" title="第2章 准备开发环境和工具"></a>第2章 准备开发环境和工具</h1><p>在安装jdk中级的选择好安装位置，且路径中不要有中文，以便配置Jdk的环境变量。</p>
 <h3 id="系统变量配置"><a href="#系统变量配置" class="headerlink" title="系统变量配置"></a>系统变量配置</h3><table>
 <thead>
@@ -120,164 +278,6 @@
       </categories>
       <tags>
         <tag>实战派</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2020/06/09/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">"My New Post"</span><br></code></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>发现fastjson有意思的事</title>
-    <url>/2020/06/11/%E5%8F%91%E7%8E%B0fastjson%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E4%BA%8B/</url>
-    <content><![CDATA[<h3 id="fastjson"><a href="#fastjson" class="headerlink" title="fastjson"></a>fastjson</h3><blockquote>
-<p>本想着测试一下，直接用fastjson输出json时直接将null值转为空串，然后发现这事…</p>
-</blockquote>
-<p>使用的maven依赖版本：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>fastjson<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.2.68<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
-<p>测试代码</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">Map&lt;String, Object&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;String, Object&gt;();<br>map.put(<span class="hljs-string">"age"</span>, <span class="hljs-number">18</span>);<br>map.put(<span class="hljs-string">"name"</span>, <span class="hljs-keyword">null</span>);<br><span class="hljs-comment">//默认输出</span><br>String s = JSON.toJSONString(map);<br>System.out.println(<span class="hljs-string">"map默认输出值："</span> + s);<br><br>User user = <span class="hljs-keyword">new</span> User();<br>user.setAge(<span class="hljs-number">18</span>);<br>user.setName(<span class="hljs-keyword">null</span>);<br>String s3 = JSON.toJSONString(user);<br>System.out.println(<span class="hljs-string">"user默认:"</span> + s3);<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight"><table><tr><td class="code"><pre><code class="hljs json">map默认输出值：&#123;"age":18&#125;<br>user默认:&#123;"age":18&#125;<br></code></pre></td></tr></table></figure>
-
-<blockquote>
-<p>从输出结果可以看出，默认输出时null对应的key已经被过滤掉，这时我们用到了fastjson的<strong>SerializerFeature</strong>序列化属性.</p>
-</blockquote>
-<p>SerializerFeature中有用的一些枚举值如下（加粗为常用的）：</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th align="left">含义</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>QuoteFieldNames</strong></td>
-<td align="left"><strong>输出key时是否使用双引号</strong></td>
-<td><strong>默认为true</strong></td>
-</tr>
-<tr>
-<td>UseSingleQuotes</td>
-<td align="left">使用单引号而不是双引号</td>
-<td>默认为false</td>
-</tr>
-<tr>
-<td>WriteNullBooleanAsFalse</td>
-<td align="left">Boolean字段如果为null,输出为false,而非null</td>
-<td></td>
-</tr>
-<tr>
-<td>WriteNullNumberAsZero</td>
-<td align="left">数值字段如果为null,输出为0,而非null</td>
-<td></td>
-</tr>
-<tr>
-<td>WriteNullListAsEmpty</td>
-<td align="left">List字段如果为null,输出为[],而非null</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>WriteNullStringAsEmpty</strong></td>
-<td align="left"><strong>字符类型字段如果为null,输出为”“,而非null</strong></td>
-<td></td>
-</tr>
-<tr>
-<td>WriteDateUseDateFormat</td>
-<td align="left">全局修改日期格式</td>
-<td>默认为false</td>
-</tr>
-<tr>
-<td><strong>WriteMapNullValue</strong></td>
-<td align="left"><strong>是否输出值为null的字段</strong></td>
-<td><strong>默认为false</strong></td>
-</tr>
-<tr>
-<td>WriteEnumUsingToString</td>
-<td align="left">Enum输出name()或者original</td>
-<td>默认为false</td>
-</tr>
-<tr>
-<td>SkipTransientField</td>
-<td align="left">如果是true，类中的Get方法对应的Field是transient，序列化时将会被忽略</td>
-<td>默认为true</td>
-</tr>
-<tr>
-<td>SortField</td>
-<td align="left">按字段名称排序后输出</td>
-<td>默认为false</td>
-</tr>
-<tr>
-<td>WriteTabAsSpecial</td>
-<td align="left">把\t做转义输出，</td>
-<td>默认为false 不推荐</td>
-</tr>
-<tr>
-<td>PrettyFormat</td>
-<td align="left">结果是否格式化</td>
-<td>默认为false</td>
-</tr>
-</tbody></table>
-<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">String s1 = JSON.toJSONString(map, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);<br>System.out.println(<span class="hljs-string">"map转为空串--&gt;不起作用："</span> + s1);<br><br>String s4 = JSON.toJSONString(user, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);<br>System.out.println(<span class="hljs-string">"user转为空串"</span> + s4);<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight"><table><tr><td class="code"><pre><code class="hljs json">map转为空串--&gt;不起作用：&#123;"name":null,"age":18&#125;<br>user转为空串&#123;"age":18,"name":""&#125;<br></code></pre></td></tr></table></figure>
-
-<blockquote>
-<p>这时候我们发现，map和user对象同样使用SerializerFeature后：user对象输出就是我们要的结果，而map虽然输出了name的值为nulll,说明<strong>WriteMapNullValue</strong>是有作用的，但是<strong>WriteNullStringAsEmpty</strong>转换竟然<strong>不起作用</strong>！！！</p>
-</blockquote>
-<p>一阵噼里啪啦网上查找时，我们发现可以造一个fastjson的过滤器，是这样的：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ValueFilter filter = <span class="hljs-keyword">new</span> ValueFilter() &#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">process</span><span class="hljs-params">(Object obj, String s, Object v)</span> </span>&#123;<br>    	<span class="hljs-keyword">if</span> (v == <span class="hljs-keyword">null</span>) &#123;<br>    		<span class="hljs-keyword">return</span> <span class="hljs-string">""</span>;<br>    	&#125;<br>    	<span class="hljs-keyword">return</span> v;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
-
-<p>然后转换时直接使用filter，这样就可以了：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">String s2 = JSON.toJSONString(map, MainTest.filter);<br>System.out.println(<span class="hljs-string">"map使用filter:"</span> + s2);<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight"><table><tr><td class="code"><pre><code class="hljs json">map使用filter:&#123;"name":"","age":18&#125;<br></code></pre></td></tr></table></figure>
-
-<p>其实我们用SerializerFeature主要是针对Object对象序列化转换时的情况（这个时候能判断参数的类型），而在Map中，放进入了null就是null，进行序列化时已经没法判断它原来的类型了，所以并没有起作用！~</p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>mySql查出用户常用手机号码</title>
-    <url>/2020/06/09/mySql%E6%9F%A5%E5%87%BA%E7%94%A8%E6%88%B7%E5%B8%B8%E7%94%A8%E6%89%8B%E6%9C%BA%E5%8F%B7%E7%A0%81/</url>
-    <content><![CDATA[<h4 id="mySql查出用户常用手机号码"><a href="#mySql查出用户常用手机号码" class="headerlink" title="mySql查出用户常用手机号码"></a>mySql查出用户常用手机号码</h4><blockquote>
-<p>由于设计问题，自己手机号可有多个，联系人的手机号又有多个，现设计为在这一堆手机号中必勾选一个为常用电话，现需查出用户唯一的常用手机号做批量处理。</p>
-</blockquote>
-<p>在自己一堆手机号中使用了<u>recently字段为1</u>作为常用手机号，而在联系人一堆手机号中使用了<u>is_default字段为1</u>作为常用手机号，而两张表中的手机号字段也不同，故使用了case when语句进行输出处理。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT pb.id,pb.&#96;name&#96;,pb.nationality,<br>CASE	<br>	WHEN pp.recently &#x3D; 1 THEN<br>	pp.patient_tel <br>	WHEN pc.is_default &#x3D; 1 THEN<br>	pc.contacts_tel <br>	END tel <br>FROM<br>	patient_basic_info pb<br>	LEFT JOIN patient_phone pp ON pb.id &#x3D; pp.patient_id <br>	AND pp.is_del &#x3D; 1 <br>	AND pp.recently &#x3D; 1<br>	LEFT JOIN patient_contacts pc ON pb.id &#x3D; pc.patient_id <br>	AND pc.is_del &#x3D; 1 <br>	AND pc.is_default &#x3D; 1 <br>	where pb.id &#x3D; 876025<br></code></pre></td></tr></table></figure>
-
-<p>当前Sql可查出某个用户ID的常用手机号，如全部查出需将最后where语句删除即可。</p>
-<blockquote>
-<p>MySql 中关键字 case when then else end 的用法</p>
-</blockquote>
-<p>数据SQL CASE 表达式是一种通用的条件表达式，类似于其它语言中的 <strong>if/else</strong> 语句。 </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">CASE WHEN condition THEN result <br>　　　WHEN condition THEN result <br>　　　.............<br>　　　[WHEN ...] <br>　　　[ELSE result] <br>END<br></code></pre></td></tr></table></figure>
-
-<p>​        CASE 子句可以用于任何表达式可以有效存在的地方。 condition 是一个返回boolean 的表达式。 如果结果为真，那么 CASE 表达式的结果就是符合条件的 result。 如果结果为假，那么以相同方式搜寻任何随后的 WHEN 子句。 如果没有 WHEN condition 为真，那么 case 表达式的结果就是在 ELSE 子句里的值。 如果省略了 ELSE 子句而且没有匹配的条件, 结果为 NULL。</p>
-<p>eg.简单举例，如果将数据库里1、2换为男女，则可以直接输出：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">select name,<br>    case <br>    when sex&#x3D;&#39;1&#39; then &#39;男&#39;<br>    when sex&#x3D;&#39;2&#39; then &#39;女&#39; <br>    else &#39;无性别&#39; <br>    end sex<br>    from user_table;<br></code></pre></td></tr></table></figure>
-<p>当然，我们在实际应用中，通常不会这样直接查库后用sql转换数据值，可通过后端实体输出时或者前端直接做判断修改等方式进行即可。</p>
-]]></content>
-      <categories>
-        <category>工作</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
       </tags>
   </entry>
 </search>

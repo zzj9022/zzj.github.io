@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="description" content="�� �� �� һ �� �� �� ��" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    实战派(第4章) |  Hello World
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  <link href="https://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">
+  <script src="https://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-实战派-4"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  实战派(第4章)
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/06/30/%E5%AE%9E%E6%88%98%E6%B4%BE-4/" class="article-date">
+  <time datetime="2020-06-30T01:19:00.000Z" itemprop="datePublished">2020-06-30</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">3.1k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">10 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="第4章-认识微服务"><a href="#第4章-认识微服务" class="headerlink" title="第4章 认识微服务"></a>第4章 认识微服务</h1><h4 id="微服务的优点："><a href="#微服务的优点：" class="headerlink" title="微服务的优点："></a>微服务的优点：</h4><ol>
+<li>易于开发和维护：微服务架构由许多业务单一且服务自治的单个微服务组成，易于开发</li>
+<li>启动速度更快：单个微服务业务单一，加载速度更快</li>
+<li>局部修改后容易部署：修改单个后，只需将修改的微服务重新发布、部署即可</li>
+<li>技术栈不受限：各模块微服务可用不同语言和工具开发</li>
+<li>按需伸缩：根据不同需求，灵活增加相应服务的间的硬件资源等</li>
+<li>松耦合(解耦)：由于业务单一和服务自治，内部是高内聚的，而微服务之间是松耦合的，因此每个微服务可以很容易按需扩展</li>
+<li>弹性强(允许部分故障)：部分出现故障不会对整体的服务能力和可用性造成很大影响。</li>
+</ol>
+<p>除此之外，优点还有：测试和调试简化、水平扩展独立、复用性高、运维自动化、灵活性高等</p>
+<h4 id="微服务的缺点："><a href="#微服务的缺点：" class="headerlink" title="微服务的缺点："></a>微服务的缺点：</h4><ol>
+<li><p>运维要求较高：完整的微服务系统一般是由数十、数百、数千个独立的微服务实例构成。需要实现微服务的高可用集群部署，给开发和运维带来挑战。</p>
+</li>
+<li><p>分布式问题：</p>
+<ol>
+<li><p>分布式的复杂性：分布式本身的复杂性会导致微服务架构变得更加复杂，如系统的容错能力、网络延迟、分布式事务、依赖服务的不稳定等</p>
+</li>
+<li><p>分布式的事务问题：分布式的事务一致性问题在微服务系统中更为突出明显。</p>
+<p>事务一致性方案有以下三种：</p>
+<ul>
+<li><p>可靠事件模式(Reliable Event Mode)：通过保证事件收发的高可靠性来保证事务的一致性。</p>
+</li>
+<li><p>补偿模式(Confirm Cancel)：如果最终确认失败，则全部逆序取消。</p>
+</li>
+<li><p>TCC模式(Try Confirm Cancel)：补偿模式的一种特殊实现，通常转账服务会采用这种模式。</p>
+</li>
+</ul>
+</li>
+<li><p>分布式的同步调用问题：</p>
+<p>在微服务架构中，需要保证“在不确定的环境中交付确定的服务”,即在无法保证所依赖的服务的可靠性的情况下，要保证自己能够正常的提供服务。这个问题可以用SEDA（Staged Event Driven Architecture,分阶段的事件驱动架构）架构来解决</p>
+<p>SEDA的核心思想是：将一个请求处理过程划分为多个Stage(阶段)，不同资源消耗的Stage使用不同数量的线程进行处理，哥哥Stage之间采用事件驱动的异步通信模式。</p>
+</li>
+</ol>
+</li>
+<li><p>接口调整成本高</p>
+<ul>
+<li><p>调用的修改</p>
+</li>
+<li><p>接口文档的编写</p>
+</li>
+<li><p>变更难以跟踪</p>
+</li>
+</ul>
+</li>
+<li><p>重复劳动：很多单个的微服务具有相同的功能，却没法将这些功能抽取出来供服务集群或其他微服务使用，因为微服务之间的调用是远程调用，常存在重复构建的情况。</p>
+</li>
+</ol>
+<p>对于以上几个问题，可以通过技术、设计、开发原则和规范，以及管理来解决。例如：执行文档管理规定；实现统一的认证、配置、日志框架、综合分析监控平台；搭建持续集成平台等。</p>
+<h4 id="微服务设计的原则"><a href="#微服务设计的原则" class="headerlink" title="微服务设计的原则"></a>微服务设计的原则</h4><ol>
+<li><p>业务单一原则：只关注功能单一、有界限的业务员逻辑，从而完成某个特定的功能。</p>
+</li>
+<li><p>服务自治原则：每一个微服务都应具备独立的业务能力和运行环境，开发、测试、构建、部署等都可以独立运行， 包括数据库独立等。</p>
+</li>
+<li><p>轻量级通信原则：轻量级的通信应该具备以下两点：</p>
+<ul>
+<li><p>体量较轻：通信的语言非常轻量</p>
+</li>
+<li><p>能跨语言、跨平台：有足够的独立性，可以不受技术的限制。</p>
+</li>
+</ul>
+</li>
+<li><p>接口明确原则：接口之间尽可能具有通用性和灵活性。</p>
+</li>
+<li><p>弹性（容错性）设计原则：在依赖的服务宕机、网络连接出现问题时，应能够自动隔离服务、限制使用资源，即系统具有自我保护能力，可以使用比如Hystrix,可熔断、回滚等</p>
+</li>
+<li><p>自动化原则：</p>
+<ol>
+<li><p>自动化测试</p>
+</li>
+<li><p>自动化监控与管理日志</p>
+<p>监控微服务的状态、快速定位异常或错误。</p>
+<ul>
+<li><p>监控功能主要包括监控服务的可用状态、请求流量、调用链、错误计数、服务依赖关系等内容，以便及时发现问题并解决问题。也可以根据监控状态来及时调整系统负载、过载保护等，从而保证系统的稳定性和高可用。</p>
+</li>
+<li><p>日志功能主要包括对微服务日志的收集、聚合、展现、搜索及报表等。比如ELK等</p>
+</li>
+</ul>
+</li>
+<li><p>持续集成和持续交付</p>
+<ul>
+<li><p>持续集成指频繁的将代码集成到主干、这样做可以迅速发现错误，防止分支过度偏离主干。</p>
+</li>
+<li><p>持续交付是指频繁费向测试人员和用户交付系统的新版本，以便进行测试和评审。</p>
+</li>
+</ul>
+</li>
+<li><p>持续部署</p>
+</li>
+</ol>
+<p>持续部署是持续交付的下一个步骤，是指将通过的代码自动部署到生产环境中。比如Jenkins+Rancher等</p>
+</li>
+</ol>
+<h4 id="领域驱动设计-DDD"><a href="#领域驱动设计-DDD" class="headerlink" title="领域驱动设计(DDD)"></a>领域驱动设计(DDD)</h4><p>领域驱动设计（Domain Driver Design,DDD）为微服务的划分提供了方法论，它能解决在微服务拆分中遇到的粒度问题。</p>
+<p>需要从以下几个方面来理解领域驱动设计：</p>
+<ol>
+<li><p>问题域</p>
+<p>要开发系统是因为遇到了问题，通过问题域可以知道需要做一个什么样的系统(即系统的目标)</p>
+</li>
+<li><p>领域</p>
+<p>领域即边界。任何一个系统只能解决某一个边界内的问题，不可能解决漫无边际的问题。通过领域分析可以明确具体的需求。</p>
+<p>问题域指导我们进行领域驱动设计，以解决领域中出现的问题。</p>
+</li>
+<li><p>设计</p>
+<p>在确定了领域后，需要在领域中进行模型的设计。</p>
+<p>DDD是一种基于模型驱动开发的软件开发思想，它可以帮助我们解决复杂的业务问题。</p>
+</li>
+<li><p>驱动</p>
+<p>在DDD中，我们以领域为边界分析领域中的核心问题，根据核心问题设计对应的领域模型，再根据领域模型来驱动代码的实现。</p>
+<p>DDD总体结构分为四层：Infrastructure（基础设施层）、Domain（领域层）、Application（应用层）、Interfaces（表示层，或”接口层”）。</p>
+</li>
+<li><p>限界上下文</p>
+<p>限界上下文用来封装通用语言和领域对象，他为领域提供了上下文语境，保证领域内的术语、业务相关对象等具有一个确切的含义，不存在歧义。</p>
+</li>
+</ol>
+<h4 id="跨服务的事务管理模式"><a href="#跨服务的事务管理模式" class="headerlink" title="跨服务的事务管理模式"></a>跨服务的事务管理模式</h4><p>一个逻辑工作单元要成为事务，必须满足ACID属性。</p>
+<ul>
+<li>A：原子性(Atomicity)，事务中的操作要么都不做，要么就全做。</li>
+<li>C：一致性(Consistency)，在事务执行完后，数据库从一个一致性状态转换到另一个一致性状态。</li>
+<li>I：隔离性(Isolation)，一个事务的执行不能被其他事务干扰。</li>
+<li>D：持久性(Durability)，一个事务一旦提交，它对数据库中数据的改变就应该是永久性的。</li>
+</ul>
+<p>在微服务中，进行事务管理主要有以下几种模式：</p>
+<h5 id="2PC-3PC算法模式"><a href="#2PC-3PC算法模式" class="headerlink" title="2PC/3PC算法模式"></a>2PC/3PC算法模式</h5><blockquote>
+<p>2PC/3PC是强一致，是资源层面的分布式事务，在两阶段提交的整个过程中一致会持有资源的锁。</p>
+</blockquote>
+<h5 id="TCC事务机制模式"><a href="#TCC事务机制模式" class="headerlink" title="TCC事务机制模式"></a>TCC事务机制模式</h5><p>TCC实现了Try、Confirm、Cancel三个操作的接口。</p>
+<ul>
+<li>Try：该接口检查所有的业务(一致性)，并预留业务资源(隔离性)。</li>
+<li>Confirm：该接口不检查业务，只执行业务，使用的事Try阶段预留的业务资源。</li>
+<li>Cancel：该接口取消执行业务，释放Try阶段预留的业务资源。</li>
+</ul>
+<blockquote>
+<p>TCC是最终一致，是业务层面的分布式事务，不会一直持有资源的锁。</p>
+</blockquote>
+<h5 id="消息中间件模式"><a href="#消息中间件模式" class="headerlink" title="消息中间件模式"></a>消息中间件模式</h5><blockquote>
+<p>引入消息中间件来进行异步处理、系统解耦、流量削事务管理等。</p>
+<p>消息中间件是基于最终一致性来管理事务的。</p>
+</blockquote>
+<p>需要保证以下3要素：</p>
+<ul>
+<li><p>消息生产者一定要将数据消息投递到消息中间件服务器中（如RabbitMQ）。可以通过消息确认机制来保证成功投递。</p>
+</li>
+<li><p>消息消费者能够正确消费消息。可以采用手动ACK模式，这里需要注意重试幂等性问题。</p>
+</li>
+<li><p>保证第一个事务先执行。可以采用补偿机制。</p>
+</li>
+</ul>
+<p>主流开元消息中间件有ActiveMQ、RabbitMQ、Kafka、Redis、RocketMQ。</p>
+<h5 id="Saga模式"><a href="#Saga模式" class="headerlink" title="Saga模式"></a>Saga模式</h5><blockquote>
+<p>Saga模式的核心思想史：将长事务拆分为多个可以交错运行的子事务集合，其中的每个子事务都保证事务的一致性。</p>
+</blockquote>
+<p>整个运行过程由Saga事务协调器来协调，如果每一个子事务都正常结束，则整个事务正常完成；如果某个子事务失败，则整个事务失败，会根据相反顺序执行<strong>补偿操作</strong>。</p>
+<h5 id="Paxos算法模式"><a href="#Paxos算法模式" class="headerlink" title="Paxos算法模式"></a>Paxos算法模式</h5><blockquote>
+<p>基于消息传递的一致性算法。这个算法被认为是类似算法中最有效的。Paxos算法解决在分布式系统中如何就某个值(决议)达成一致。</p>
+</blockquote>
+<h4 id="跨服务的查询模式"><a href="#跨服务的查询模式" class="headerlink" title="跨服务的查询模式"></a>跨服务的查询模式</h4><p>在微服务系统架构中，跨多个复位键的数据查询需求是很常见的，进行跨服务查询模式有两种：API组合器模式和CQRS模式。</p>
+<ol>
+<li>API组合器模式</li>
+</ol>
+<p>通过API组合器来调用多个服务，并将多个服务返回的结果组合在一起。</p>
+<p>通常可以由服务消费者、网关和特别构建的服务来完成工作。</p>
+<ol start="2">
+<li>CQRS模式</li>
+</ol>
+<p>CQRS（Command Query Responsibility Segregation，命令查询职责分离）从业务上分离“读”和“写”行为，从而使得逻辑更加清晰，便于对不同部分进行针对性的优化。</p>
+<p>这里的“读”指Query，不会对系统状态进行修改；这里的“写”指Command(增加、删除、修改)，会改变系统的状态。</p>
+<h4 id="微服务部署"><a href="#微服务部署" class="headerlink" title="微服务部署"></a>微服务部署</h4><p>微服务的最初上线的部署模式主要有以下几种：</p>
+<ul>
+<li>按照编程语言发布特定的语言包格式部署。比如Java可以打包成WAR包或JAR包。</li>
+<li>将服务部署在虚拟机</li>
+<li>讲服务部署到容器。容器化技术Docker和Kubernetes极大地方方便了微服务的部署，可以说是时下最流行的微服务部署方式。</li>
+<li>无服务部署Serverless。Serverless架构让人们不再操心运行所需的资源，只需关注自己的业务员逻辑，并且只为实际消耗的资源付费。</li>
+</ul>
+<h4 id="升级模式"><a href="#升级模式" class="headerlink" title="升级模式"></a>升级模式</h4><ol>
+<li><p>蓝绿部署</p>
+<p>不停机维护：集群分为蓝和绿两个部分，把全部流量切到绿色，升级蓝色集群；然后把全部流量切到蓝色集群，升级绿色集群，最后切换到全部集群中。</p>
+</li>
+<li><p>滚动部署</p>
+<p>滚动部署是一种在更细的粒度下平滑升级版本的方式。一般取出一个或多个节点停止服务，然后执行更新，更新完成后再将这些停止的电接点重新投入使用，知道所有实例都被更新。</p>
+</li>
+<li><p>灰度发布（金丝雀发布）</p>
+<p>很像滚动部署，但是在灰度期需要进行A/B测试。灰度发布可保证整个系统的稳定性，在灰度期间可以发现、调整问题。</p>
+<p>A/B测试是指，一部分用户继续用产品特性A，另一部分用户开始用心的产品特性B，如果用户对产品特性B没有反对意见，则把所有用户都迁移到B上。</p>
+<blockquote>
+<p>如果数据库结构确实需要调整，则尽量通过增加数据库的字段来实现。</p>
+</blockquote>
+</li>
+</ol>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://zzj9022.github.io/2020/06/30/%E5%AE%9E%E6%88%98%E6%B4%BE-4/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%9E%E6%88%98%E6%B4%BE/" rel="tag">实战派</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2020/06/15/%E5%AE%9E%E6%88%98%E6%B4%BE-2-3/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">实战派(第2-3章)</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "fPJlOOtW4KwGM9sGlc6n9oqn-gzGzoHsz",
+    app_key: "8CzYKJdTFEqKo2GwbYMrYY01",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2019-2020
+        <i class="ri-heart-fill heart_icon"></i> AcxJun
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s4.cnzz.com/z_stat.php?id=1278977002&amp;web_id=1278977002'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Hello World"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Subtitle -->
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+      strings: ['面朝大海，春暖花开', '愿你一生努力，一生被爱', '想要的都拥有，得不到的都释怀'],
+      startDelay: 0,
+      typeSpeed: 200,
+      loop: true,
+      backSpeed: 100,
+      showCursor: true
+    });
+  } catch (err) {
+    console.log(err)
+  }
+</script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

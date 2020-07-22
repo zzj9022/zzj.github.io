@@ -19,34 +19,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>mySql查出用户常用手机号码</title>
-    <url>/2020/06/09/mySql%E6%9F%A5%E5%87%BA%E7%94%A8%E6%88%B7%E5%B8%B8%E7%94%A8%E6%89%8B%E6%9C%BA%E5%8F%B7%E7%A0%81/</url>
-    <content><![CDATA[<h4 id="mySql查出用户常用手机号码"><a href="#mySql查出用户常用手机号码" class="headerlink" title="mySql查出用户常用手机号码"></a>mySql查出用户常用手机号码</h4><blockquote>
-<p>由于设计问题，自己手机号可有多个，联系人的手机号又有多个，现设计为在这一堆手机号中必勾选一个为常用电话，现需查出用户唯一的常用手机号做批量处理。</p>
-</blockquote>
-<p>在自己一堆手机号中使用了<u>recently字段为1</u>作为常用手机号，而在联系人一堆手机号中使用了<u>is_default字段为1</u>作为常用手机号，而两张表中的手机号字段也不同，故使用了case when语句进行输出处理。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT pb.id,pb.&#96;name&#96;,pb.nationality,<br>CASE	<br>	WHEN pp.recently &#x3D; 1 THEN<br>	pp.patient_tel <br>	WHEN pc.is_default &#x3D; 1 THEN<br>	pc.contacts_tel <br>	END tel <br>FROM<br>	patient_basic_info pb<br>	LEFT JOIN patient_phone pp ON pb.id &#x3D; pp.patient_id <br>	AND pp.is_del &#x3D; 1 <br>	AND pp.recently &#x3D; 1<br>	LEFT JOIN patient_contacts pc ON pb.id &#x3D; pc.patient_id <br>	AND pc.is_del &#x3D; 1 <br>	AND pc.is_default &#x3D; 1 <br>	where pb.id &#x3D; 876025<br></code></pre></td></tr></table></figure>
-
-<p>当前Sql可查出某个用户ID的常用手机号，如全部查出需将最后where语句删除即可。</p>
-<blockquote>
-<p>MySql 中关键字 case when then else end 的用法</p>
-</blockquote>
-<p>数据SQL CASE 表达式是一种通用的条件表达式，类似于其它语言中的 <strong>if/else</strong> 语句。 </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">CASE WHEN condition THEN result <br>　　　WHEN condition THEN result <br>　　　.............<br>　　　[WHEN ...] <br>　　　[ELSE result] <br>END<br></code></pre></td></tr></table></figure>
-
-<p>​        CASE 子句可以用于任何表达式可以有效存在的地方。 condition 是一个返回boolean 的表达式。 如果结果为真，那么 CASE 表达式的结果就是符合条件的 result。 如果结果为假，那么以相同方式搜寻任何随后的 WHEN 子句。 如果没有 WHEN condition 为真，那么 case 表达式的结果就是在 ELSE 子句里的值。 如果省略了 ELSE 子句而且没有匹配的条件, 结果为 NULL。</p>
-<p>eg.简单举例，如果将数据库里1、2换为男女，则可以直接输出：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">select name,<br>    case <br>    when sex&#x3D;&#39;1&#39; then &#39;男&#39;<br>    when sex&#x3D;&#39;2&#39; then &#39;女&#39; <br>    else &#39;无性别&#39; <br>    end sex<br>    from user_table;<br></code></pre></td></tr></table></figure>
-<p>当然，我们在实际应用中，通常不会这样直接查库后用sql转换数据值，可通过后端实体输出时或者前端直接做判断修改等方式进行即可。</p>
-]]></content>
-      <categories>
-        <category>工作</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>发现fastjson有意思的事</title>
     <url>/2020/06/11/%E5%8F%91%E7%8E%B0fastjson%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E4%BA%8B/</url>
     <content><![CDATA[<h3 id="fastjson"><a href="#fastjson" class="headerlink" title="fastjson"></a>fastjson</h3><blockquote>
@@ -157,6 +129,148 @@
       <categories>
         <category>java</category>
       </categories>
+  </entry>
+  <entry>
+    <title>第1周 万丈高楼，地基首要</title>
+    <url>/2020/07/22/%E7%AC%AC1%E5%91%A8-%E4%B8%87%E4%B8%88%E9%AB%98%E6%A5%BC%E5%9C%B0%E5%9F%BA%E9%A6%96%E8%A6%81/</url>
+    <content><![CDATA[<h4 id="演进历程"><a href="#演进历程" class="headerlink" title="演进历程"></a>演进历程</h4><h4 id="单节点"><a href="#单节点" class="headerlink" title="单节点"></a>单节点</h4><p>单纯静态页面 </p>
+<p>mvc搭建的war包，文件存储，数据库全部存放至服务器</p>
+<p>war包存放至服务器，文件存储在专门服务器，数据库专门服务器</p>
+<p>随着查询量变大，增加缓存中间件，针对已查询的数据直接查缓存</p>
+<h4 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h4><p>负载均衡 &lt;—&gt;应用集群(多个tomcat等)–文件服务器集群– 缓存服务器集群</p>
+<h4 id="构建聚合工程"><a href="#构建聚合工程" class="headerlink" title="构建聚合工程"></a>构建聚合工程</h4><p>主pom文件</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.zzj<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>foodie-dev<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">modules</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">module</span>&gt;</span>foodie-dev-common<span class="hljs-tag">&lt;/<span class="hljs-name">module</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">module</span>&gt;</span>foodie-dev-pojo<span class="hljs-tag">&lt;/<span class="hljs-name">module</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">module</span>&gt;</span>foodie-dev-mapper<span class="hljs-tag">&lt;/<span class="hljs-name">module</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">module</span>&gt;</span>foodie-dev-service<span class="hljs-tag">&lt;/<span class="hljs-name">module</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">module</span>&gt;</span>foodie-dev-api<span class="hljs-tag">&lt;/<span class="hljs-name">module</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">modules</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">packaging</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">packaging</span>&gt;</span><br><br><span class="hljs-comment">&lt;!--引入依赖 parent--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.1.5.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span><br><br><span class="hljs-comment">&lt;!--设置资源属性--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="hljs-tag">&lt;/<span class="hljs-name">project.build.sourceEncoding</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">project.reporting.outputEncoding</span>&gt;</span>UTF-8<span class="hljs-tag">&lt;/<span class="hljs-name">project.reporting.outputEncoding</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">java.version</span>&gt;</span>1.8<span class="hljs-tag">&lt;/<span class="hljs-name">java.version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-comment">&lt;!--&lt;exclusions&gt;</span><br><span class="hljs-comment">                &lt;exclusion&gt;</span><br><span class="hljs-comment">                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="hljs-comment">                    &lt;artifactId&gt;spring-boot-starter-logging&lt;/artifactId&gt;</span><br><span class="hljs-comment">                &lt;/exclusion&gt;</span><br><span class="hljs-comment">            &lt;/exclusions&gt;--&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-comment">&lt;!--Web模块--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-comment">&lt;!--引入xml、properties等自动配置--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-configuration-processor<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">optional</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">optional</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- mysql驱动 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>mysql<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mysql-connector-java<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>5.1.41<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span> <span class="hljs-comment">&lt;!-- mybatis --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.1.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>foodie-dev-api中的yml文件</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">server:</span><br>  <span class="hljs-attr">port:</span> <span class="hljs-number">8088</span><br>  <span class="hljs-attr">tomcat:</span><br>    <span class="hljs-attr">uri-encoding:</span> <span class="hljs-string">UTF-8</span><br>  <span class="hljs-attr">max-http-header-size:</span> <span class="hljs-string">80KB</span><br><br><span class="hljs-comment">## 数据层HikariCP与MyBatis整合   </span><br><span class="hljs-comment">## 配置数据源信息</span><br><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">datasource:</span> <span class="hljs-comment"># 数据源的相关配置</span><br>    <span class="hljs-attr">type:</span> <span class="hljs-string">com.zaxxer.hikari.HikariDataSource</span> <span class="hljs-comment"># 数据源类型：HikariCP</span><br>    <span class="hljs-attr">driver-class-name:</span> <span class="hljs-string">com.mysql.jdbc.Driver</span> <span class="hljs-comment"># mysql驱动</span><br>    <span class="hljs-attr">url:</span> <span class="hljs-string">jdbc:mysql://localhost:3306/foodie-shop-dev?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect</span><br>    <span class="hljs-attr">username:</span> <span class="hljs-string">root</span><br>    <span class="hljs-attr">password:</span> <span class="hljs-string">root</span><br>    <span class="hljs-attr">hikari:</span><br>      <span class="hljs-attr">connection-timeout:</span> <span class="hljs-number">30000</span> <span class="hljs-comment"># 等待连接池分配连接的最大时长（毫秒），超过这个时长还没可用的连接则发生SQ</span><br>      <span class="hljs-attr">minimum-idle:</span> <span class="hljs-number">5</span> <span class="hljs-comment"># 最小连接数</span><br>      <span class="hljs-attr">maximum-pool-size:</span> <span class="hljs-number">20</span> <span class="hljs-comment"># 最大连接数</span><br>      <span class="hljs-attr">auto-commit:</span> <span class="hljs-literal">true</span> <span class="hljs-comment"># 自动提交</span><br>      <span class="hljs-attr">idle-timeout:</span> <span class="hljs-number">600000</span> <span class="hljs-comment"># 连接超时的最大时长（毫秒），超时则被释放（retired），默认:10分钟</span><br>      <span class="hljs-attr">pool-name:</span> <span class="hljs-string">DateSourceHikariCP</span> <span class="hljs-comment"># 连接池名字</span><br>      <span class="hljs-attr">max-lifetime:</span> <span class="hljs-number">1800000</span> <span class="hljs-comment"># 连接的生命时长（毫秒），超时而且没被使用则被释放（retired），默认:30分钟</span><br>      <span class="hljs-attr">connection-test-query:</span> <span class="hljs-string">SELECT</span> <span class="hljs-number">1</span><br>      <br><span class="hljs-comment">## mybatis 配置</span><br><span class="hljs-attr">mybatis:</span><br>  <span class="hljs-attr">type-aliases-package:</span> <span class="hljs-string">com.zzj.pojo</span>   <span class="hljs-comment">#所有pojo类</span><br>  <span class="hljs-attr">mapper-locations:</span> <span class="hljs-string">classpath:mapper/*.xml</span>  <span class="hljs-comment">#mapper映射文件</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="PDMan数据库建模工具使用"><a href="#PDMan数据库建模工具使用" class="headerlink" title="PDMan数据库建模工具使用"></a>PDMan数据库建模工具使用</h4><p>官网：<a href="http://www.pdman.cn/#/" target="_blank" rel="noopener">http://www.pdman.cn/#/</a></p>
+<p>PowerDesigner有以下几个不足之处</p>
+<ol>
+<li>商业化，收费，价格还很贵（<em>* *敲黑板，重点</em> **）。</li>
+<li>功能太强大，隐藏较深，上手有一定难度，使用起来比较复杂。</li>
+<li>仅限Windows平台使用。</li>
+<li>复杂的功能，配置起来非常麻烦。</li>
+<li>可以支持生成数据库的DDL建表语句以及JavaBean代码，但个性定制极其复杂。</li>
+<li>自动生成文档格式非常难以调整。</li>
+</ol>
+<p>PDMan特点：</p>
+<ol>
+<li>永远免费使用（<em>* * 敲黑板，重点</em> **），目前已经使用MIT协议开源。</li>
+<li>功能简洁，去除晦涩难懂的设置，化繁为简，实用为上，上手非常容易。</li>
+<li>Windows，Mac，Linux三个平台均可以使用（<em>* *敲黑板，重点</em> **）。</li>
+<li>自带参考案例，学习容易。新建一个项目，完全不需要做任何配置。</li>
+<li>对开发极其友好，可生成各种数据库以及编程语言的模型类。</li>
+<li>目前系统默认实现了MySQL,Oracle,Java的代码自动生成，并且带注释。其他类型的数据库或语言，只需要添加相应的“数据库”并设置好相应的doT模板就可以了。</li>
+<li>一键自动生成MarkDown以及HTML格式的数据表结构文档，方便客户交付以及交流。</li>
+<li>数据库模型版本管理功能，在版本变动之后，可直接生成数据表结构的DDL语句。</li>
+<li>数据库模型设计直接同步至数据库。</li>
+</ol>
+<h4 id="Rest设计规范"><a href="#Rest设计规范" class="headerlink" title="Rest设计规范"></a>Rest设计规范</h4><ul>
+<li>GET -&gt; /order/{id}                   -&gt;/getOrder?id=10001</li>
+<li>POST -&gt;/order             另外传json             -&gt;/saveOrder</li>
+<li>PUT -&gt;order/{id}                 -&gt;modifyOrder</li>
+<li>DELETE -&gt;/order/{id}          -&gt;deleteOrder?id=10001</li>
+</ul>
+<h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><table>
+<thead>
+<tr>
+<th><strong>事务传播行为类型</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PROPAGATION_REQUIRED</td>
+<td>如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中。这是最常见的选择。</td>
+</tr>
+<tr>
+<td>PROPAGATION_SUPPORTS</td>
+<td>支持当前事务，如果当前没有事务，就以非事务方式执行。</td>
+</tr>
+<tr>
+<td>PROPAGATION_MANDATORY</td>
+<td>使用当前的事务，如果当前没有事务，就抛出异常。</td>
+</tr>
+<tr>
+<td>PROPAGATION_REQUIRES_NEW</td>
+<td>新建事务，如果当前存在事务，把当前事务挂起。</td>
+</tr>
+<tr>
+<td>PROPAGATION_NOT_SUPPORTED</td>
+<td>以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。</td>
+</tr>
+<tr>
+<td>PROPAGATION_NEVER</td>
+<td>以非事务方式执行，如果当前存在事务，则抛出异常。</td>
+</tr>
+<tr>
+<td>PROPAGATION_NESTED</td>
+<td>如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作。</td>
+</tr>
+</tbody></table>
+<h4 id="Swagger2介绍"><a href="#Swagger2介绍" class="headerlink" title="Swagger2介绍"></a>Swagger2介绍</h4><p>使用 Swagger2 可以减少编写过多的文档，只需要通过代码就能生成文档API,提供给前端人员非常方便。</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- swagger2 配置 --&gt;</span> <br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span> <br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.springfox<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span> <br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>springfox-swagger2<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span> <br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.4.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span> <br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span> <br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span> <br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.springfox<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span> <br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>springfox-swagger-ui<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span> <br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.4.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span> <br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span> <br><span class="hljs-comment">&lt;!--swagger2 的UI，访问doc.html即可--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span> <br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.github.xiaoymin<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span> <br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>swagger-bootstrap-ui<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span> <br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.6<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span> <br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Swagger2配置类</span><br><span class="hljs-comment"> * 在与spring boot集成时，放在与Application.java同级的目录下。</span><br><span class="hljs-comment"> * 通过<span class="hljs-doctag">@Configuration</span>注解，让Spring来加载该类配置。</span><br><span class="hljs-comment"> * 再通过<span class="hljs-doctag">@EnableSwagger</span>2注解来启用Swagger2。</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@EnableSwagger</span>2<br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Swagger2Config</span> </span>&#123;<br>    <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 创建API应用</span><br><span class="hljs-comment">     * apiInfo() 增加API相关信息</span><br><span class="hljs-comment">     * 通过select()函数返回一个ApiSelectorBuilder实例,用来控制哪些接口暴露给Swagger来展现，</span><br><span class="hljs-comment">     * 本例采用指定扫描的包路径来定义指定要建立API的目录。</span><br><span class="hljs-comment">     * </span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Docket <span class="hljs-title">createRestApi</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2)<br>                .apiInfo(apiInfo())<br>                .select()<br>                .apis(RequestHandlerSelectors.basePackage(<span class="hljs-string">"com.zzj.controller"</span>))<br>                .paths(PathSelectors.any())<br>                .build();<br>    &#125;<br>    <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 创建该API的基本信息（这些基本信息会展现在文档页面中）</span><br><span class="hljs-comment">     * 访问地址：http://项目实际地址/swagger-ui.html</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> ApiInfo <span class="hljs-title">apiInfo</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ApiInfoBuilder()<br>                .title(<span class="hljs-string">"Spring Boot中使用Swagger2构建RESTful APIs"</span>)<br>                .description(<span class="hljs-string">"更多请关注http://www.baidu.com"</span>)<br>                .termsOfServiceUrl(<span class="hljs-string">"http://www.baidu.com"</span>)<br>                .contact(<span class="hljs-string">"sunf"</span>)<br>                .version(<span class="hljs-string">"1.0"</span>)<br>                .build();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="跨域问题"><a href="#跨域问题" class="headerlink" title="跨域问题"></a>跨域问题</h4><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//实现跨域注解</span><br><span class="hljs-comment">//origin="*"代表所有域名都可访问</span><br><span class="hljs-comment">//maxAge飞行前响应的缓存持续时间的最大年龄，简单来说就是Cookie的有效期 单位为秒</span><br><span class="hljs-comment">//若maxAge是负数,则代表为临时Cookie,不会被持久化,Cookie信息保存在浏览器内存中,浏览器关闭Cookie就消失</span><br><span class="hljs-meta">@CrossOrigin</span>(origins = <span class="hljs-string">"*"</span>,maxAge = <span class="hljs-number">3600</span>)<br></code></pre></td></tr></table></figure>
+
+<h4 id="使用切面-AspectJ开发AOP"><a href="#使用切面-AspectJ开发AOP" class="headerlink" title="使用切面@AspectJ开发AOP"></a>使用切面@AspectJ开发AOP</h4><h5 id="1、切面-Aspect"><a href="#1、切面-Aspect" class="headerlink" title="1、切面(Aspect)"></a>1、切面(Aspect)</h5><p>　　一系列Advice + Pointcut 的集合。</p>
+<h5 id="2、通知-Advice"><a href="#2、通知-Advice" class="headerlink" title="2、通知(Advice)"></a>2、通知(Advice)</h5><p>　　通知是切面开启后，切面的方法。</p>
+<ul>
+<li>前置通知 ( before )：在动态代理反射原有对象方法 或者 执行环绕通知 前 执行的通知功能</li>
+<li>后置通知（after）：在动态代理反射原有对象方法 或者 执行环绕通知 后 执行的通知功能</li>
+<li>返回通知 （afterReturning）：在动态代理反射原有对象方法 或者 执行环绕通知 后 正常返回（无异常）执行的通知功能</li>
+<li>异常通知（afterTherowing）：在动态代理反射原有对象方法 或者 执行环绕通知 产生异常后执行的通知功能</li>
+<li>环绕通知（around）：在动态代理中，它可以取代当前被拦截对象的方法，提供回调原有被拦截对象的方法</li>
+</ul>
+<h5 id="3、引入-Introduction"><a href="#3、引入-Introduction" class="headerlink" title="3、引入(Introduction)"></a>3、引入(Introduction)</h5><p>　　引入允许我们在现有的类里添加自定义的类和方法</p>
+<h5 id="4、切点-Pointcut"><a href="#4、切点-Pointcut" class="headerlink" title="4、切点(Pointcut)"></a>4、切点(Pointcut)</h5><p>　　这是一个告诉Spring AOP 在什么时候启动拦截并织入对应的流程，因为并不是所有的开发都是需要启动AOP的，它往往通过正则表达进行限定</p>
+<h5 id="5、连接点-join-point"><a href="#5、连接点-join-point" class="headerlink" title="5、连接点( join point)"></a>5、连接点( join point)</h5><p>　　Pointcut 中的某个具体位置。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Aspect</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@Slf</span>4j<br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ServiceLogAspect</span> </span>&#123;<br><br>    <span class="hljs-meta">@Pointcut</span>(<span class="hljs-string">"execution(* com.zzj.service.impl..*.*(..))"</span>)<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">point</span><span class="hljs-params">()</span></span>&#123;&#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 环绕通知</span><br><span class="hljs-comment">     * 对实现方法进行检测，接口超过3秒的以error日志打印</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> joinPoint</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Around</span>(<span class="hljs-string">"point()"</span>)<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">recordTimeLog</span><span class="hljs-params">(ProceedingJoinPoint joinPoint)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;<br><br>        log.info(<span class="hljs-string">"--------开始执行:&#123;&#125;.&#123;&#125;-----------"</span>, joinPoint.getTarget().getClass().getSimpleName(),<br>                joinPoint.getSignature().getName());<br>        <span class="hljs-keyword">long</span> begin = System.currentTimeMillis();<br>        Object result = joinPoint.proceed();<br>        <span class="hljs-keyword">long</span> end = System.currentTimeMillis();<br>        <span class="hljs-keyword">long</span> takeTime = end - begin;<br>        <span class="hljs-keyword">if</span> (takeTime &gt; <span class="hljs-number">3000</span>) &#123;<br>            log.error(<span class="hljs-string">"--------执行结束，耗时：&#123;&#125;毫秒-----------------"</span>, takeTime);<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (takeTime &gt; <span class="hljs-number">2000</span>) &#123;<br>            log.warn(<span class="hljs-string">"--------执行结束，耗时：&#123;&#125;毫秒-----------------"</span>, takeTime);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            log.info(<span class="hljs-string">"--------执行结束，耗时：&#123;&#125;毫秒-----------------"</span>, takeTime);<br>        &#125;<br>        <span class="hljs-keyword">return</span> result;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="SpringBoot-日志"><a href="#SpringBoot-日志" class="headerlink" title="SpringBoot 日志"></a>SpringBoot 日志</h4><p>1.移除默认日志</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">exclusions</span>&gt;</span> <br>    <span class="hljs-tag">&lt;<span class="hljs-name">exclusion</span>&gt;</span> <br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span> <br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-logging<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span> <br>    <span class="hljs-tag">&lt;/<span class="hljs-name">exclusion</span>&gt;</span> <br><span class="hljs-tag">&lt;/<span class="hljs-name">exclusions</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>2.添加日志框架依赖</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--引入日志依赖 抽象层 与 实现层--&gt;</span> <br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span> <br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.slf4j<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span> <br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>slf4j-api<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span> <br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.7.21<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span> <br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span> <br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span> <br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.slf4j<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span> <br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>slf4j-log4j12<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span> <br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.7.21<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span> <br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>3.创建 log4j.properties 并且放到资源文件目录 src/main/resources </p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">log4j.rootLogger</span>=<span class="hljs-string">DEBUG,stdout,file </span><br><span class="hljs-meta">log4j.additivity.org.apache</span>=<span class="hljs-string">true </span><br><span class="hljs-meta">log4j.appender.stdout</span>=<span class="hljs-string">org.apache.log4j.ConsoleAppender </span><br><span class="hljs-meta">log4j.appender.stdout.threshold</span>=<span class="hljs-string">INFO </span><br><span class="hljs-meta">log4j.appender.stdout.layout</span>=<span class="hljs-string">org.apache.log4j.PatternLayout </span><br><span class="hljs-meta">log4j.appender.stdout.layout.ConversionPattern</span>=<span class="hljs-string">%-5p %c&#123;1&#125;:%L - %m%n </span><br><span class="hljs-meta">log4j.appender.file</span>=<span class="hljs-string">org.apache.log4j.DailyRollingFileAppender </span><br><span class="hljs-meta">log4j.appender.file.layout</span>=<span class="hljs-string">org.apache.log4j.PatternLayout </span><br><span class="hljs-meta">log4j.appender.file.DatePattern</span>=<span class="hljs-string">'.'yyyy-MM-dd-HH-mm </span><br><span class="hljs-meta">log4j.appender.file.layout.ConversionPattern</span>=<span class="hljs-string">%d&#123;yyyy-MM-dd HH:mm:ss&#125; %-5p %c&#123;1&#125;:%L - %m%n log4j.appender.file.Threshold=INFO </span><br><span class="hljs-meta">log4j.appender.file.append</span>=<span class="hljs-string">true </span><br><span class="hljs-meta">log4j.appender.file.File</span>=<span class="hljs-string">/workspaces/logs/foodie-api/mylog.log</span><br></code></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Spring Cloud</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mySql查出用户常用手机号码</title>
+    <url>/2020/06/09/mySql%E6%9F%A5%E5%87%BA%E7%94%A8%E6%88%B7%E5%B8%B8%E7%94%A8%E6%89%8B%E6%9C%BA%E5%8F%B7%E7%A0%81/</url>
+    <content><![CDATA[<h4 id="mySql查出用户常用手机号码"><a href="#mySql查出用户常用手机号码" class="headerlink" title="mySql查出用户常用手机号码"></a>mySql查出用户常用手机号码</h4><blockquote>
+<p>由于设计问题，自己手机号可有多个，联系人的手机号又有多个，现设计为在这一堆手机号中必勾选一个为常用电话，现需查出用户唯一的常用手机号做批量处理。</p>
+</blockquote>
+<p>在自己一堆手机号中使用了<u>recently字段为1</u>作为常用手机号，而在联系人一堆手机号中使用了<u>is_default字段为1</u>作为常用手机号，而两张表中的手机号字段也不同，故使用了case when语句进行输出处理。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT pb.id,pb.&#96;name&#96;,pb.nationality,<br>CASE	<br>	WHEN pp.recently &#x3D; 1 THEN<br>	pp.patient_tel <br>	WHEN pc.is_default &#x3D; 1 THEN<br>	pc.contacts_tel <br>	END tel <br>FROM<br>	patient_basic_info pb<br>	LEFT JOIN patient_phone pp ON pb.id &#x3D; pp.patient_id <br>	AND pp.is_del &#x3D; 1 <br>	AND pp.recently &#x3D; 1<br>	LEFT JOIN patient_contacts pc ON pb.id &#x3D; pc.patient_id <br>	AND pc.is_del &#x3D; 1 <br>	AND pc.is_default &#x3D; 1 <br>	where pb.id &#x3D; 876025<br></code></pre></td></tr></table></figure>
+
+<p>当前Sql可查出某个用户ID的常用手机号，如全部查出需将最后where语句删除即可。</p>
+<blockquote>
+<p>MySql 中关键字 case when then else end 的用法</p>
+</blockquote>
+<p>数据SQL CASE 表达式是一种通用的条件表达式，类似于其它语言中的 <strong>if/else</strong> 语句。 </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">CASE WHEN condition THEN result <br>　　　WHEN condition THEN result <br>　　　.............<br>　　　[WHEN ...] <br>　　　[ELSE result] <br>END<br></code></pre></td></tr></table></figure>
+
+<p>​        CASE 子句可以用于任何表达式可以有效存在的地方。 condition 是一个返回boolean 的表达式。 如果结果为真，那么 CASE 表达式的结果就是符合条件的 result。 如果结果为假，那么以相同方式搜寻任何随后的 WHEN 子句。 如果没有 WHEN condition 为真，那么 case 表达式的结果就是在 ELSE 子句里的值。 如果省略了 ELSE 子句而且没有匹配的条件, 结果为 NULL。</p>
+<p>eg.简单举例，如果将数据库里1、2换为男女，则可以直接输出：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">select name,<br>    case <br>    when sex&#x3D;&#39;1&#39; then &#39;男&#39;<br>    when sex&#x3D;&#39;2&#39; then &#39;女&#39; <br>    else &#39;无性别&#39; <br>    end sex<br>    from user_table;<br></code></pre></td></tr></table></figure>
+<p>当然，我们在实际应用中，通常不会这样直接查库后用sql转换数据值，可通过后端实体输出时或者前端直接做判断修改等方式进行即可。</p>
+]]></content>
+      <categories>
+        <category>工作</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
   </entry>
   <entry>
     <title>实战派(第4章)</title>

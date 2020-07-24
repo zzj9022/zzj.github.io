@@ -85,6 +85,778 @@
     
     
     <article
+  id="post-实战派-5"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/24/%E5%AE%9E%E6%88%98%E6%B4%BE-5/"
+    >实战派(第5章)</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/07/24/%E5%AE%9E%E6%88%98%E6%B4%BE-5/" class="article-date">
+  <time datetime="2020-07-24T04:46:00.000Z" itemprop="datePublished">2020-07-24</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="第5章-Spring-Cloud基础"><a href="#第5章-Spring-Cloud基础" class="headerlink" title="第5章 Spring Cloud基础"></a>第5章 Spring Cloud基础</h1><h3 id="了解Spring-Cloud生态"><a href="#了解Spring-Cloud生态" class="headerlink" title="了解Spring Cloud生态"></a>了解Spring Cloud生态</h3><ul>
+<li><h4 id="主要子项目"><a href="#主要子项目" class="headerlink" title="主要子项目"></a>主要子项目</h4></li>
+</ul>
+<ol>
+<li><p>Spring Cloud Config</p>
+<p>配置管理工具，通过它可以把配置信息放到远程服务器中，从而集中管理集群配置。</p>
+</li>
+<li><p>Spring Cloud Consul</p>
+<p>封装了Consul，Consul是Go语言开发的服务治理软件，它包含服务质量、健康检查、Key-value存储、多数据中心功能。</p>
+</li>
+<li><p>Spring Cloud Sleuth</p>
+<p>为Spring Cloud应用提供了分布式最终解决方案，微服务之间的调用提供了链路追踪。</p>
+</li>
+<li><p>Spring Cloud Starters</p>
+<p>是Spring Boot式的项目，为Spring Cloud提供了“开箱即用”的依赖管理</p>
+</li>
+<li><p>Spring Cloud Gateway</p>
+<p>提供了一种简单有效的方式来对微服务的API进行路由</p>
+</li>
+<li><p>Spring Cloud OpenFeign</p>
+<p>封装了声明式的Web Service客户端Feign，它使得编写Web Service客户端变得更为容易。支持Feign注解和JAX-RS注解。</p>
+<p>Spring Cloud支持Feign在Spring MVC中使用，并整合了Ribbon和Eureka以便在使用Feign时提供负载均衡。</p>
+</li>
+<li><p>Turbine</p>
+<p>聚合服务器。用来发送事件流数据，以监控集群中Hystrix的Metrics情况。</p>
+</li>
+</ol>
+<ul>
+<li><h4 id="Netflix家族项目"><a href="#Netflix家族项目" class="headerlink" title="Netflix家族项目"></a>Netflix家族项目</h4></li>
+</ul>
+<ol>
+<li><p>Eureka</p>
+<p>服务治理组件，它基于Rest的服务，包含服务注册于服务发现功能。</p>
+</li>
+<li><p>Hystrix</p>
+<p>SpringCloud可以整合Hystrix来对微服务进行容错管理。</p>
+</li>
+<li><p>Zuul</p>
+<p>主要提供路由和过滤功能。它是各种服务的统一入口，还可以提供动态路由、监控、授权、安全、调度等功能。</p>
+</li>
+<li><p>Archaius</p>
+<p>Spring Cloud整合Archaius（配置管理工具）来配置管理API。Archaius提供了动态类型化属性、线程安全配置操作、轮训框架、回调机制等功能。</p>
+<blockquote>
+<p>动态获取配置，默认60s从配置源读取一次内容，不需要重启也可使修改后的内容生效。</p>
+</blockquote>
+</li>
+</ol>
+<ul>
+<li><h4 id="阿里巴巴家族项目"><a href="#阿里巴巴家族项目" class="headerlink" title="阿里巴巴家族项目"></a>阿里巴巴家族项目</h4></li>
+</ul>
+<ol>
+<li><p>Sentinel</p>
+<p>流控组件，以流量作为切入点，可以从流量控制、熔断降级、系统负载保护等多个维度保护服务的稳定性。</p>
+</li>
+<li><p>Nacos</p>
+<p>和Eureka、Consul一样也是一个服务治理的项目，它提供了动态服务发现、配置管理和服务管理平台。</p>
+</li>
+<li><p>RocketMQ</p>
+<p>和RabbitMQ类似的一种消息中间件，它基于高可用分布式集群技术提供低延时、高可靠的消息发布/订阅服务。</p>
+</li>
+<li><p>Dubbo</p>
+<p>高性能Java RPC（Romote Procedure Call，远程过程调用）框架。</p>
+</li>
+<li><p>Seata</p>
+<p>高性能的微服务分布式事务解决方案。</p>
+</li>
+<li><p>Alibaba Cloud ACM</p>
+<p>应用配置中心，用于在分布式架构环境中对应用配置进行集中管理和推送。</p>
+</li>
+<li><p>Alibaba Cloud SchedulerX</p>
+<p>基于Cron表达式的任务调度服务，可提供秒级、精准、高可靠、高可用的定时任务调度功能。</p>
+</li>
+</ol>
+<ul>
+<li><h4 id="常用的技术栈"><a href="#常用的技术栈" class="headerlink" title="常用的技术栈"></a>常用的技术栈</h4><ul>
+<li>服务开发：Spring Boot、Spring MVC、Spring。</li>
+<li>服务的注册与发现：Eureka、Consul、Zookeeper。</li>
+<li>服务的配置与管理：Spring Cloud Config、Archaius、Diamound、Apollo、Nacos等。</li>
+<li>服务的调用方式：Rest、GRPC、RPC。</li>
+<li>服务的熔断器：Hystrix、Envoy等。</li>
+<li>负载均衡：Ribbon、Nginx、F5。</li>
+<li>服务接口调用：Feign、Kafka、RabbitMQ等。</li>
+<li>服务监控：Spring Boot Admin、Zabbix、Nagios、Metrics、Spectator等。</li>
+<li>全链路追踪：Zipkin、Brave、Dapper等</li>
+<li>服务部署：Docker、Open Stack、Kubernetes等。</li>
+<li>数据流操作开发包：Spring Cloud Stream（封装Rabbit、Kafka等来发送接收消息）</li>
+<li>事件消息总线：Spring Cloud Bus。</li>
+<li>安全管理：Spring Cloud Security、Shiro。</li>
+</ul>
+</li>
+</ul>
+<h3 id="了解Spring-Cloud"><a href="#了解Spring-Cloud" class="headerlink" title="了解Spring Cloud"></a>了解Spring Cloud</h3><h4 id="Spring-Cloud-与Spring、Spring-Boot的关系"><a href="#Spring-Cloud-与Spring、Spring-Boot的关系" class="headerlink" title="Spring Cloud 与Spring、Spring Boot的关系"></a>Spring Cloud 与Spring、Spring Boot的关系</h4><ol>
+<li><p>Spring</p>
+<p>Spring为开发Java应用提供了全面的基础支持。它提供了依赖注入和开箱即用的一些模块，例如：Spring MVC、Spring JDBC、Spring Security、Spring AOP、Spring ORM、Spring Test等</p>
+</li>
+<li><p>Spring Boot</p>
+<p>Spring Boot是Spring框架的扩展和自动化，它消除了在Spring中需要进行的XML配置，使得开发系统变得更快、跟高效、更自动化</p>
+<p>1）使用简单。支持注解方式轻松实现类的定义和功能开发</p>
+<p>2）配置简单。利用在类路径中的JAR和类自动配置Bean自动完成大量配置。另外它还支持通过自定义方式来配置项目。</p>
+<p>3）提供大量的Starter来简化依赖配置。</p>
+<p>4）部署简单。内置嵌入式Servlet容器，不用打包WAR格式，直接JAR包方式运行</p>
+<p>5）与云计算天然集成。云应用框架Spring Cloud也是基于Spring Boot实现的。</p>
+<p>6）监控简单。提供了一套对应用状态进行监控与管理的功能模块。</p>
+</li>
+<li><p>Spring Cloud</p>
+<p>Spring Cloud是一个微服务开发和治理框架，它本身不提供具体功能性的操作，只专注与服务之间的通信、熔断和监控等。</p>
+<p>微服务是可以独立部署、水平扩展、独立访问的服务单元。</p>
+<p>Spring Cloud的特点：</p>
+<ul>
+<li>约定优于配置。</li>
+<li>开箱即用、快速开发和启动</li>
+<li>适用于各种环境</li>
+<li>轻量级的组件。</li>
+<li>组件支持丰富、功能齐全。</li>
+</ul>
+</li>
+<li><p>Spring、Spring Boot、Spring Cloud的关系</p>
+<ul>
+<li>Spring Boot并不是一个全新的框架，它是Spring的自动化。</li>
+<li>Spring Cloud基于Spring Boot来构建微服务应用。</li>
+<li>Spring Cloud依赖于Spring Boot，Spring Boot依赖于Spring</li>
+</ul>
+</li>
+</ol>
+<h4 id="Spring-Cloud版本"><a href="#Spring-Cloud版本" class="headerlink" title="Spring Cloud版本"></a>Spring Cloud版本</h4><p>Spring Cloud版本的名字是根据伦敦的地铁站的站名而来的，命名方式为“版本+.SRX后缀”，其中“X”代表该版本的第几个Releases版本。</p>
+<p>由于Spring Cloud是以Spring Boot为基础构建的，所以，在构建Spring Cloud项目时要考虑两者的适配情况。</p>
+<table>
+<thead>
+<tr>
+<th>Spring Cloud</th>
+<th>Spring Boot</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hoxton</td>
+<td>2.2.x</td>
+</tr>
+<tr>
+<td>Greenwich</td>
+<td>2.1.x</td>
+</tr>
+<tr>
+<td>Finchley</td>
+<td>2.0.x</td>
+</tr>
+<tr>
+<td>Edgware</td>
+<td>1.5.x</td>
+</tr>
+<tr>
+<td>Dalston</td>
+<td>1.5.x</td>
+</tr>
+</tbody></table>
+<h4 id="Spring-Cloud-项目的结构"><a href="#Spring-Cloud-项目的结构" class="headerlink" title="Spring Cloud 项目的结构"></a>Spring Cloud 项目的结构</h4><p>Spring Cloud是基于Spring Boot的，所以它们的项目结构是一样的。</p>
+<p>Spring Cloud的基础结构分为3个文件目录：</p>
+<ol>
+<li>src/main/java：入口(启动)类及程序的开发目录。在这个目录下进行业务开发、创建实体层、控制器层、数据连接层等。</li>
+<li>src/main/resources：资源文件目录，用于放置静态文件和配置文件<ul>
+<li>static：用于放置静态资源，如CSS、JavaScript、图片文件等。</li>
+<li>templates：用于存放模板文件。</li>
+<li>application.properties：用于配置项目运行所需的配置数据。如果用YML方式管理配置，则YML文件也放在这个目录中，名为application.yml。</li>
+</ul>
+</li>
+<li>src/test/java：测试程序所在的目录</li>
+</ol>
+<h4 id="Spring-Cloud的入口类"><a href="#Spring-Cloud的入口类" class="headerlink" title="Spring Cloud的入口类"></a>Spring Cloud的入口类</h4><p>创建项目时，自动创建用于启动的、名为“项目名+Application”的入口类，它是项目的启动入口。默认会加上注解@SpringBootApplication,以标识这是Spring Boot项目</p>
+<h4 id="Spring-Cloud的自动配置"><a href="#Spring-Cloud的自动配置" class="headerlink" title="Spring Cloud的自动配置"></a>Spring Cloud的自动配置</h4><p>Spring Cloud自动配置是通过注解@EnableAutoConfiguration来实现的(Spring Boot也一样)，具有非入侵性。</p>
+<p>如果不需要某些自动配置，则通过注解@EnableAutoConfiguration的“exclude”或“excludeName”属性来指定，或在配置文件(application.properties或application.yml)中指定“spring.autoconfigure.exclude”的值。</p>
+<h4 id="开箱即用"><a href="#开箱即用" class="headerlink" title="开箱即用"></a>开箱即用</h4><p>Spring Cloud采用了一种特别的声明性方法，通常只需要改类路径或注释即可获得很多特性。</p>
+<p>如加入注解“@EnableDiscoveryClient”即可启用服务发现客户端功能。</p>
+<h3 id="了解注解"><a href="#了解注解" class="headerlink" title="了解注解"></a>了解注解</h3><h4 id="什么是注解"><a href="#什么是注解" class="headerlink" title="什么是注解"></a>什么是注解</h4><p>注解(Annotations)用来定义一个类、属性或一些方法，以便程序能被编译处理。</p>
+<p>注解可以用于标注包、类、方法和变量等。</p>
+<p>如：@RestController用来定义一个Rest风格的控制器。</p>
+<h4 id="Spring-Boot的系统注解"><a href="#Spring-Boot的系统注解" class="headerlink" title="Spring Boot的系统注解"></a>Spring Boot的系统注解</h4><table>
+<thead>
+<tr>
+<th align="left">注解</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">@Override</td>
+<td>用于修饰方法，标识此方法重写了父类方法</td>
+</tr>
+<tr>
+<td align="left">@Deprecated</td>
+<td>用于修饰方法，表示此方法已经过时</td>
+</tr>
+<tr>
+<td align="left">@SuppressWarnnings</td>
+<td>告诉编译器忽视某类编译警告(属性较多，使用时再说)</td>
+</tr>
+</tbody></table>
+<h4 id="Spring-Boot的常用注解"><a href="#Spring-Boot的常用注解" class="headerlink" title="Spring Boot的常用注解"></a>Spring Boot的常用注解</h4><ol>
+<li>使用在类名上的注解</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="left">注解</th>
+<th>使用位置</th>
+<th align="left">说明</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">@RestController</td>
+<td>类名上</td>
+<td align="left">起作用相当于@ResponseBody和@Controller</td>
+<td>用于返回Json、Xml等数据，但不能返回Html页面</td>
+</tr>
+<tr>
+<td align="left">@Controller</td>
+<td>类名上</td>
+<td align="left">声明此类是一个SpringMVC Controller对象</td>
+<td>用于标注控制器层，再MVC程序设计思想中代表C。</td>
+</tr>
+<tr>
+<td align="left">@Service</td>
+<td>类名上</td>
+<td align="left">声明一个业务处理类(实现非接口类)</td>
+<td>用于标注服务层、处理业务逻辑。</td>
+</tr>
+<tr>
+<td align="left">@Repository</td>
+<td>类名上</td>
+<td align="left">声明数据库访问类(实现类、非接口类)</td>
+<td>标注数据访问层</td>
+</tr>
+<tr>
+<td align="left">@Component</td>
+<td>类名上</td>
+<td align="left">代表是Spring的管理类，常用在无法用@Service、@Reponsitory描述的Spring管理的类上，相当于通用的注解</td>
+<td>用于把普通POJO实例化到Spring容器中。</td>
+</tr>
+<tr>
+<td align="left">@Configuration</td>
+<td>类名上</td>
+<td align="left">声明此类是一个配置类，常与@Bean配合使用</td>
+<td>标注配置类，并且可以由Spring容器自动处理。它作为Bean的载体，用来指示一个类声明一个或多个@Bean方法，在运行时为这些Bean生成BeanDefinition和服务请求。</td>
+</tr>
+<tr>
+<td align="left">@Resource</td>
+<td>类名上、属性或构造函数参数上</td>
+<td align="left">默认按byName自动注入</td>
+<td>装配Bean，也可以写在字段上或setter方法上</td>
+</tr>
+<tr>
+<td align="left">@Autowired</td>
+<td>类名上、属性或构造函数参数上</td>
+<td align="left">默认按byType自动注入</td>
+<td>表示被修饰的类需要注入对象。Spring会扫描所有被@Autowired标注的类，然后根据类型在IOC容器中找到匹配的类进行注入。</td>
+</tr>
+<tr>
+<td align="left">@RequestMapping</td>
+<td>类名或方法上</td>
+<td align="left">如果用在类上，则表示所有用在方法上的相应请求都以该地址作为父类</td>
+<td>用来处理请求地址映射，用在类或方法上</td>
+</tr>
+<tr>
+<td align="left">@Transactional</td>
+<td>类名或方法上</td>
+<td align="left">用于处理事务</td>
+<td>如果异常被捕获了，<strong>则事务就不回滚</strong>。如果想让事务回滚，则必须再往外抛出异常。</td>
+</tr>
+<tr>
+<td align="left">@Qualifier</td>
+<td>类名或属性上</td>
+<td align="left">为Bean指定名称，随后再通过名字引用Bean</td>
+<td>用于标注哪一个实现类才是需要注入的。<strong>参数名称为被注入的类中注解@Service标注的名称。</strong></td>
+</tr>
+</tbody></table>
+<p>@RequestMapping：该注解有6个属性。</p>
+<ul>
+<li>Params：指定Request中必须包含某些参数值，这样才让该方法处理</li>
+<li>Headers：指定Request中必须包含某些指定的Header值，这样才能让该方法处理请求。</li>
+<li>Value：指定请求的实际地址，指定的地址可以是URI Template模式</li>
+<li>Method：指定请求的Method类型，如Get、Post等</li>
+<li>Consumes：指定处理请求的提交内容类型Content-Type，如“application/json,text/html”。</li>
+<li>Produces：指定返回的内容类型。只有当Request请求头中Accept类型中包含该指定类型时才返回。</li>
+</ul>
+<ol start="2">
+<li>使用在方法上的注解</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>注解</th>
+<th>使用位置</th>
+<th>说明</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@RequestBody</td>
+<td>方法参数前</td>
+<td>处理Content-Type类型的数据，将其转换为指定类型参数</td>
+<td>常用来处理(JSON/XML)格式的数据。</td>
+</tr>
+<tr>
+<td>@PathVariable</td>
+<td>方法参数前</td>
+<td>将URL获取的参数映射到方法参数上</td>
+<td>用于获取路径中的参数</td>
+</tr>
+<tr>
+<td>@Bean</td>
+<td>方法上</td>
+<td>声明该方法的返回结果是一个由Spring容器管理的Bean</td>
+<td>它代表产生一个Bean，并交给Spring管理。</td>
+</tr>
+<tr>
+<td>@ResponseBody</td>
+<td>方法上</td>
+<td>将方法返回的对象转换为指定格式后写入Responese对象的body数据区</td>
+<td>通过转换器将控制器中的方法返回的对象转换指定的格式。常用来返回json、xml数据</td>
+</tr>
+</tbody></table>
+<ol start="3">
+<li>其他注解</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>注解</th>
+<th>使用位置</th>
+<th>作用说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@EnableAutoConfiguration</td>
+<td>入口类/类名上</td>
+<td>用来提供自动配置</td>
+</tr>
+<tr>
+<td>@SpringBootApplication</td>
+<td>入口类/类名上</td>
+<td>用来启动入口类Application</td>
+</tr>
+<tr>
+<td>@EncableScheduling</td>
+<td>入口类/类名上</td>
+<td>用来开启计划任务。</td>
+</tr>
+<tr>
+<td>@EnableAsync</td>
+<td>入口类/类名上</td>
+<td>用来开启异步注解功能</td>
+</tr>
+<tr>
+<td>@ComponentScan</td>
+<td>入口类/类名上</td>
+<td>用来扫描组件，可以自动发现和装配一些Bean。</td>
+</tr>
+<tr>
+<td>@Aspec</td>
+<td>入口类/类名上</td>
+<td>标注切面，可以用来配置事务、日志、权限验证，在用户请求时做一个处理</td>
+</tr>
+<tr>
+<td>@ControllerAdvice</td>
+<td>类名上</td>
+<td>包含@Component,可以被扫描到。统一处理异常。</td>
+</tr>
+<tr>
+<td>@ExceptionHandler</td>
+<td>方法上</td>
+<td>用在方法上面标识遇到这个异常就执行该方法</td>
+</tr>
+<tr>
+<td>@Value</td>
+<td>属性上</td>
+<td>用于获取配置文件中的值。</td>
+</tr>
+</tbody></table>
+<h4 id="Spring-Cloud的常用注解"><a href="#Spring-Cloud的常用注解" class="headerlink" title="Spring Cloud的常用注解"></a>Spring Cloud的常用注解</h4><table>
+<thead>
+<tr>
+<th>注解</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@SpringCloudApplication</td>
+<td>应用开启入口，比@SpringBootApplication更强大</td>
+</tr>
+<tr>
+<td>@LoadBalanced</td>
+<td>方便我们对RestTemplate添加一个LoadBalancerClient，以通过Ribbon实现客户端的负载均衡功能</td>
+</tr>
+<tr>
+<td>@EnableEurekaClient</td>
+<td>注解基于Spring Cloud Netflix，如果注册中心是Eureka，则推荐使用这个注解</td>
+</tr>
+<tr>
+<td>@EnableEurekaServer</td>
+<td>开启Eureka服务器端</td>
+</tr>
+<tr>
+<td>@EnableDiscoveryClient</td>
+<td>基于“spring-cloud-commons”，可以开启Eureka、Consul、Zookeeper客户端。</td>
+</tr>
+<tr>
+<td>@EnableHystrix</td>
+<td>标识q懂断路器，开启容错保护，断路器依赖服务注册和发现</td>
+</tr>
+<tr>
+<td>@HystrixCommand</td>
+<td>注解方法失败后，系统将奇幻岛fallabckMethod方法执行相应，如@HystrixCommand(fallbackMethod=”login”)，容错保护。</td>
+</tr>
+<tr>
+<td>@FeignClient</td>
+<td>用于发现服务，在注解中“fallbank”属性指定回调类</td>
+</tr>
+<tr>
+<td>@EnableFeignClients</td>
+<td>开启负载均衡客户端Feign的支持</td>
+</tr>
+<tr>
+<td>@EnableZuulProxy</td>
+<td>开启网关代理</td>
+</tr>
+</tbody></table>
+<h3 id="了解Starter"><a href="#了解Starter" class="headerlink" title="了解Starter"></a>了解Starter</h3><h4 id="Spring-Boot的Starter"><a href="#Spring-Boot的Starter" class="headerlink" title="Spring Boot的Starter"></a>Spring Boot的Starter</h4><p>Spring Boot提供了非常多的Starter.即把常用的模块相关的所有jar包打包好，同时完成自动配置，然后组装成Starter。开发时不需要过多关注框架的配置，只需关注业务逻辑即可。</p>
+<table>
+<thead>
+<tr>
+<th>Starter</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>spring-boot-starter-web</td>
+<td>用于构建Web，包含RESTful风格框架、<br />SpringMVC和默认的嵌入式容器Tomcat。</td>
+</tr>
+<tr>
+<td>spring-boot-starter-mail</td>
+<td>支持用Java Mail、Spring email发送邮件</td>
+</tr>
+<tr>
+<td>spring-boot-starter-data-redis</td>
+<td>通过Spring Data Redis、Redis client使用Redis</td>
+</tr>
+</tbody></table>
+<h4 id="Spring-Cloud的Starter"><a href="#Spring-Cloud的Starter" class="headerlink" title="Spring Cloud的Starter"></a>Spring Cloud的Starter</h4><table>
+<thead>
+<tr>
+<th>Starter</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>spring-cloud-satrter</td>
+<td>Spring Boot式ID启动项目，<br />Spring Cloud提供开箱即用的依赖管理。</td>
+</tr>
+<tr>
+<td>spring-cloud-start-netflix-eureka-server</td>
+<td>“服务中心”Eureka服务器端的Starter依赖</td>
+</tr>
+<tr>
+<td>spring-cloud-starter-netflix-eureka-client</td>
+<td>“服务中心”Eureka客户端的Starter依赖</td>
+</tr>
+</tbody></table>
+<h4 id="如何使用Starter"><a href="#如何使用Starter" class="headerlink" title="如何使用Starter"></a>如何使用Starter</h4><p>Starter本身就是依赖，只需要在pom.xml中添加依赖即可。</p>
+<p>在pom.xml中的<dependencies>和</dependencies>元素之间加入依赖项。</p>
+<p>如果依赖没有版本号，则Spring Boot会根据自己的版本号自动给依赖加上版本号；如果想指定版本，则在version元素上添加上版本信息。</p>
+<h3 id="使用配置文件"><a href="#使用配置文件" class="headerlink" title="使用配置文件"></a>使用配置文件</h3><p>Spring Cloud(Spring Boot)支持Properties和Yml两种配置方式。</p>
+<p>properties的优先级要高于yml。</p>
+<p>yml的好处是——它采用的事树状结构，一目了然。</p>
+<p>使用yml的方式要注意以下几点：</p>
+<ul>
+<li>原来按”.”分割的key会变成树状结构。</li>
+<li>在key后的冒号后一定要跟一个空格。</li>
+<li>如果把原有的application.properties删掉，则建议执行一下“maven -X clean install”命令</li>
+<li>yml格式不支持用注解@PropertySource导入配置</li>
+</ul>
+<h4 id="配置文件application-properties"><a href="#配置文件application-properties" class="headerlink" title="配置文件application.properties"></a>配置文件application.properties</h4><ol>
+<li><p>基础知识</p>
+<p>配置框架，以及自定义应用程序的配置属性，是一个文本文件。每行结构是：属性键=属性值</p>
+</li>
+<li><p>读取属性值</p>
+<p>支持两种方式读取配置项。</p>
+<ul>
+<li>SpEL表达式方式：@Value(“#{configProperties[‘key’]}”)</li>
+<li>占位符方式：@Value(“${key}”)</li>
+</ul>
+</li>
+<li><p>设置默认属性值</p>
+<p>默认情况下，缺少配置项会导致异常。当缺少属性值时，可以在属性键后添加冒号(:)和默认值。</p>
+</li>
+<li><p>自定义属性值</p>
+<ul>
+<li><p>基本属性类型：字符串、整数、布尔值</p>
+</li>
+<li><p>多行字符串：如果很长，则可以将其用反斜杠“\”字符断开，分成几行以提高可读性。</p>
+</li>
+<li><p>数组、列表或集合：集合值需要用逗号（,）隔开，在调用时，只需将属性注入数组变量即可。例如：@Value(“${app.config.numbers}”) int[] numbers，List<Integer>numbers</p>
+</li>
+<li><p>列表属性的自定义分隔符</p>
+<p>默认情况下，Spring使用逗号分隔属性值。如果要使用分号这样的分隔符，则可以如下使用：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">app.numbers</span>=<span class="hljs-string">0;1;2;3</span><br></code></pre></td></tr></table></figure>
+
+<p>调用时使用分隔符即可：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Value</span>(<span class="hljs-string">"#&#123;'$&#123;app.numbers&#125;'&#125;.split(';')"</span>)<br>List&lt;Integer&gt; numbers;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>属性为Hashmap</p>
+<p>对于HashMap，可以在配置时设置格式，例如</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">app.number-map</span>=<span class="hljs-string">&#123;key1:1,key2:2,key3:3&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>然后调用的时候使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Value</span>(<span class="hljs-string">"#&#123;$&#123;app.number-map&#125;&#125;"</span>)<br>Map&lt;String,Integer&gt; numberMap;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>使用环境变量</p>
+<p>在此配置文件中，可以设置属性值为环境变量，例如：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">app.config.java-home</span>=<span class="hljs-string">Java path:$&#123;JAVA_HOME&#125;</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>注释</p>
+<p>如要进行注释，只需将#号放在一行的开头即可。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="配置文件application-yml"><a href="#配置文件application-yml" class="headerlink" title="配置文件application.yml"></a>配置文件application.yml</h4><ul>
+<li><p>简介</p>
+<p>yaml语言是一种通用的数据串行化格式，它的基本语法规则如下：</p>
+<ul>
+<li>大小写敏感</li>
+<li>使用缩进表示层级关系</li>
+<li>在缩进时不允许使用Tab键，只允许使用空格</li>
+<li>缩进的空格数目不重要，只要相同层级的元素左侧对其即可</li>
+<li>‘#’ 表示注释，从这个字符一致到行尾都会被解析器忽略。</li>
+</ul>
+</li>
+<li><p>yaml支持的数据类型</p>
+<ul>
+<li><p>对象：键值对的集合，又被成为映射(Mapping)、哈希、字典。对象的一组键值对用冒号结构表示。</p>
+</li>
+<li><p>数组：一组按次序排列的值，又被称为序列(Sequence)、列表(List)。</p>
+<p>一组连词线开头的行构成一个数组。例如：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-string">-A</span><br><span class="hljs-string">-B</span><br><span class="hljs-string">-C</span><br><span class="hljs-comment">#上面代码转换为['A','B','C']。</span><br><br><span class="hljs-bullet">-</span><br>	<span class="hljs-string">-A</span><br>	<span class="hljs-string">-B</span><br>	<span class="hljs-string">-C</span><br><span class="hljs-comment">#上面代码转换为[['A','B','C']]。</span><br></code></pre></td></tr></table></figure>
+
+<p>数组也可以采用行内表示法，例如：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">car:[bmw,auid]</span><br><span class="hljs-comment">#上面代码转换为&#123;car:['bmw','audi']&#125;</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>复合结构</p>
+<p>对象和数组可以结合使用，形成复合机构</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">animal:</span><br>	<span class="hljs-string">-Cat</span><br>	<span class="hljs-string">-Pig</span><br><span class="hljs-attr">car:</span><br>	<span class="hljs-attr">BMW:</span> <span class="hljs-string">520LI</span><br>	<span class="hljs-attr">AUDI:</span> <span class="hljs-string">A7</span><br><span class="hljs-comment">#转换后：&#123;animal:['Cat','Pig'],cat:&#123;BMW:'520LI',AUDI:'A7'&#125;&#125;</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>纯量</p>
+<p>纯量是最基本的、不可再分的值</p>
+<p>支持字符串、布尔值、整数、浮点数、NULL、时间、日期等具体值。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="应用程序分层开发模式-MVC"><a href="#应用程序分层开发模式-MVC" class="headerlink" title="应用程序分层开发模式-MVC"></a>应用程序分层开发模式-MVC</h3><h4 id="了解MVC模式"><a href="#了解MVC模式" class="headerlink" title="了解MVC模式"></a>了解MVC模式</h4><p>Spring Boot开发的Web应用程序主要使用MVC模式。</p>
+<p>MVC模式是Mode(模型)、View(视图)、Controller(控制器)的简写</p>
+<ul>
+<li>Model：Java的实体Bean,代表存取数据的对象或POJO</li>
+<li>View：主要用来解析、处理和显示内容，并进行模板的渲染</li>
+<li>Controller：主要用来处理视图中的相应。它决定如何调用Mode的实体Bean，如何调用业务层的数据增删改查等业务操作，以及如何将结果返给视图进行渲染。</li>
+</ul>
+<p>在整个SpringMVC框架中，DispatcherServlet处于核心位置，继承自HttpServlet。它负责协调和组织不同组件，以完成请求处理并返回响应工作。</p>
+<h4 id="MVC和三层架构的关系"><a href="#MVC和三层架构的关系" class="headerlink" title="MVC和三层架构的关系"></a>MVC和三层架构的关系</h4><p>三层架构就是将整个应用程序划分为：表现层、业务逻辑层、数据访问层。</p>
+<ul>
+<li>表现层：用于展示节目，接受用户的请求并返回数据</li>
+<li>业务逻辑层：三层架构的服务层，负责业务逻辑处理，主要是调用DAO层对数据进行增删改查。</li>
+<li>数据访问层：与数据库进行交互的持久层，被Service调用。</li>
+</ul>
+<p>Repository和Dao层都可以进行数据增删改查。它们相当于仓库管理员，执行进、出货操作</p>
+<p><strong>Repository = 管理对象(对象缓存和在Repository的状态) + DAO</strong></p>
+<p>三层架构是基于业务逻辑或功能来划分的，而MVC是基于页面或功能来划分的。</p>
+<h3 id="响应式编程—WebFlux"><a href="#响应式编程—WebFlux" class="headerlink" title="响应式编程—WebFlux"></a>响应式编程—WebFlux</h3><h4 id="什么是WebFlux"><a href="#什么是WebFlux" class="headerlink" title="什么是WebFlux"></a>什么是WebFlux</h4><p>WebFlux是从Spring Framework5.0开始引入的反应式Web框架。与Spring MVC不同，它不需要Servlet API,完全异步且无阻塞，并通过Reactor实现Reactive Streams规范。</p>
+<p>WebFlux可以在资源有限的情况下提高系统的吞吐量和伸缩性</p>
+<p>WebFlux除了支持RESTful Web服务外，还可以用于提供动态HTML内容。</p>
+<h4 id="比较MVC和WebFlux"><a href="#比较MVC和WebFlux" class="headerlink" title="比较MVC和WebFlux"></a>比较MVC和WebFlux</h4><ol>
+<li><p>工作方式</p>
+<p>MVC的工作方式是：主线程接收到Request请求-&gt;准备数据-&gt;返回数据。</p>
+<p>WebFlux的工作流程：主线程接收到Request-&gt;立刻返回数据与函数的组合-&gt;开启一个新Work线程去做实际的准备数据工作，进行真正的业务操作-&gt;Work线程完成工作-&gt;返给用户真实数据(结果)</p>
+</li>
+<li><p>Spring MVC与Spring WebFlux区别</p>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>Spring MVC</th>
+<th>Spring WebFlux</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>路由映射</td>
+<td>@Controller、@RequestMapping等标准注解</td>
+<td>支持使用Router Functions的函数式风格Api来创建Router、Handler、Filter，还支持标准注解</td>
+</tr>
+<tr>
+<td>数据流</td>
+<td>Servlet API</td>
+<td>Reactive Streams:一种支持背压的异步数据流处理标准</td>
+</tr>
+<tr>
+<td>容器</td>
+<td>Tomcat、Jetty、Undertow</td>
+<td>Netty、Tomcat、Jetty、Undertow</td>
+</tr>
+<tr>
+<td>I/O模型</td>
+<td>同步阻塞</td>
+<td>异步非阻塞</td>
+</tr>
+<tr>
+<td>吞吐性能</td>
+<td>低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>业务处理性能</td>
+<td>一样</td>
+<td>一样</td>
+</tr>
+<tr>
+<td>支持数据库</td>
+<td>NoSql、Sql</td>
+<td>支持NoSQL，<u><strong>不支持MySQL等关系型数据库</strong></u>？</td>
+</tr>
+<tr>
+<td>请求和响应</td>
+<td>HttpServletRequest和HttpServletResponse</td>
+<td>ServletRequest和ServletResponse</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>使用WebFlux的好处</p>
+<p>简单原理：你来了，我立马答应你，但是服务需要等待；而不是你来了没人理你，咨询服务半天也没人回复。</p>
+<p>结论：MVC能满足的场景，就不需要改用WebFlux。WebFlux和MVC可以混合使用。</p>
+</li>
+</ol>
+<h4 id="比较Mono与Flux"><a href="#比较Mono与Flux" class="headerlink" title="比较Mono与Flux"></a>比较Mono与Flux</h4><ol>
+<li><p>Mono和Flux是什么</p>
+<p>是Reactor中的两个基本概念。</p>
+<ul>
+<li>Mono和Flux都是事件发布者，为消费者提供订阅接口。</li>
+<li>Mono和Flux用于处理异步数据流，将异步数据流包装成Mono或Flux对象</li>
+</ul>
+</li>
+<li><p>Mono与Flux的区别</p>
+<ol>
+<li><p>Flux可以发送很多item，并且这些item在经过若干操作符后才被订阅</p>
+</li>
+<li><p>Mono用于返回单个数据。Flux用于返回多个数据</p>
+</li>
+<li><p>Mono表示包含0或1个元素的异步序列。在该序列中可以包含3中不同类型的消息通知</p>
+<table>
+<thead>
+<tr>
+<th>消息通知(事件发布者)</th>
+<th>方法(事件订阅者)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>包含元素的消息</td>
+<td>onNext()</td>
+</tr>
+<tr>
+<td>序列结束的消息</td>
+<td>onComplete()</td>
+</tr>
+<tr>
+<td>序列出错的消息</td>
+<td>onError()</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>Flux和Mono可以进行转换。对一个Flux序列进行计数操作，得到的结果是一个Mono<Long>对象。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h4 id="开发WebFlux的流程"><a href="#开发WebFlux的流程" class="headerlink" title="开发WebFlux的流程"></a>开发WebFlux的流程</h4><ol>
+<li><p>注解式开发流程</p>
+<p>与MVC开发模式一样，地址映射通过注解@RequestMapping提供的，应注解@Controller代替Handler类</p>
+</li>
+<li><p>响应式开发流程</p>
+<ol>
+<li><p>创建Handler类</p>
+<p>相当于SpringMVC中Controller层中的方法体。</p>
+</li>
+<li><p>配置RouterFunction</p>
+<p>和@RequestMapping相似，都用于提供URL路径。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="了解Spring-Cloud-Commons"><a href="#了解Spring-Cloud-Commons" class="headerlink" title="了解Spring Cloud Commons"></a>了解Spring Cloud Commons</h3><p>如果在项目中依赖了“Spring-cloud-starter”，则会自动配置。</p>
+<ul>
+<li>Spring Cloud Commons：Spring Cloud Commons的通用抽象。</li>
+<li>Spring Cloud Context：Spring Cloud的上下文。</li>
+<li>Spring Cloud Commons：Commons下的Commons类，Spring Cloud的公共抽象类。</li>
+</ul>
+<h4 id="Spring-Cloud的上下文"><a href="#Spring-Cloud的上下文" class="headerlink" title="Spring Cloud的上下文"></a>Spring Cloud的上下文</h4><p>Spring Cloud Context为Spring Cloud应用程序的ApplicationContext提供公共和特殊的服务。</p>
+<h4 id="Spring-Cloud的公共抽象类"><a href="#Spring-Cloud的公共抽象类" class="headerlink" title="Spring Cloud的公共抽象类"></a>Spring Cloud的公共抽象类</h4><p>Spring Cloud Commons是一组抽象和公共类，提供了服务注册与发现、负载均衡等抽象接口。</p>
+<ol>
+<li><p>DiscoveryClient接口</p>
+<p>提供了一个简单的API接口用来发现客户端，Spring Cloud会自动去寻找DiscoveryClient接口的实现用作服务发现。</p>
+<p>默认情况下，DiscoveryClient的实现类到自动注册本地的Spring Cloud服务器。</p>
+<p>如果想禁用自动注册功能，则可以在@EnableDiscoveryClient中将autoRegister属性的值设置为false</p>
+</li>
+<li><p>ServiceRegistry接口</p>
+<p>该接口提供了注册与撤销注册的方法。这里的Registration是一个标识接口，用来描述一个服务实例，其中包含实例的相关信息。</p>
+</li>
+<li><p>整合RestTemplate和Ribbon实现负载均衡</p>
+<p>通常，在Spring Cloud项目中用Ribbon实现客户端负载均衡，是通过给RestTemplate添加注解@LoadBalaced实现的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//定义Riboon的RestTemplate</span><br><span class="hljs-meta">@Bean</span><br><span class="hljs-meta">@LoadBalanced</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> RestTemplate <span class="hljs-title">restTemplate</span><span class="hljs-params">()</span></span>&#123;<br>	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> RestTemplate();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>然后使用以下代码来调用服务：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">restTemplate.getForEntity(<span class="hljs-string">"http://provider/hello"</span>,String<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getBody</span>()</span><br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%9E%E6%88%98%E6%B4%BE/" rel="tag">实战派</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
   id="post-第1周-万丈高楼地基首要"
   class="article article-type-post"
   itemscope
